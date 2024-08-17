@@ -9,9 +9,10 @@ import { Card } from './ui/card';
 type GamePlayProps = {
   // matchCount?: number; // 未來可能會有三個一組之類的玩法
   colorTemplate: string[];
+  onGameStart: () => void;
 };
 
-const GamePlay = ({ colorTemplate }: GamePlayProps) => {
+const GamePlay = ({ colorTemplate, onGameStart }: GamePlayProps) => {
   const [cards, setCards] = useState<ColorCard[]>([]);
   const [currentSelectedCards, setCurrentSelectedCards] = useState<ColorCard[]>(
     [],
@@ -58,6 +59,7 @@ const GamePlay = ({ colorTemplate }: GamePlayProps) => {
 
   // 翻牌
   const onFlip = (id: string) => {
+    onGameStart();
     const newCards = [...cards].map(c => {
       if (c.id === id) {
         c.isFlip = true;
@@ -67,6 +69,7 @@ const GamePlay = ({ colorTemplate }: GamePlayProps) => {
     setCards(newCards);
   };
 
+  // 更新狀態
   const updateCardStatus = (cardId: string) => {
     if (currentSelectedCards.length === 0) return;
     const currentIndex = currentSelectedCards.findIndex(
@@ -152,33 +155,42 @@ const GamePlay = ({ colorTemplate }: GamePlayProps) => {
         >
           <motion.div
             initial={{ scale: 1 }}
-            whileHover={{ scale: card.isFlip ? 1 : 1.1 }}
-            whileTap={{ scale: 1 }}
+            animate={{ scale: card.isMatched ? [1, 1.15, 1] : 1 }}
+            transition={{
+              ease: "linear",
+              duration: 0.4,
+            }}
           >
-            <Card
-              className={cn(
-                'flex h-28 w-28 items-center justify-center border-2 shadow',
-                !card.isFlip && 'cursor-pointer',
-              )}
+            <motion.div
+              initial={{ scale: 1 }}
+              whileHover={{ scale: card.isFlip ? 1 : 1.1 }}
+              whileTap={{ scale: 1 }}
             >
-              {card.isFlip ? (
-                <motion.div
-                  className="h-full w-full rounded-lg"
-                  style={{ backgroundColor: card.color }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                />
-              ) : (
-                <Image
-                  src="/question.svg"
-                  alt="question"
-                  width={50}
-                  height={50}
-                  priority
-                />
-              )}
-            </Card>
+              <Card
+                className={cn(
+                  'flex h-28 w-28 items-center justify-center border-2 shadow',
+                  !card.isFlip && 'cursor-pointer',
+                )}
+              >
+                {card.isFlip ? (
+                  <motion.div
+                    className="h-full w-full rounded-lg"
+                    style={{ backgroundColor: card.color }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  />
+                ) : (
+                  <Image
+                    src="/question.svg"
+                    alt="question"
+                    width={50}
+                    height={50}
+                    priority
+                  />
+                )}
+              </Card>
+            </motion.div>
           </motion.div>
         </motion.div>
       ))}
