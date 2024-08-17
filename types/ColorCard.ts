@@ -3,4 +3,5 @@ export type ColorCard = {
   color: string;
   isFlip: boolean;
   isMatched: boolean;
+  isAnimateComplete?: boolean;
 };

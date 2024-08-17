@@ -2,21 +2,22 @@ import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import uuid from 'short-uuid';
-import { cn, generateRandomColors, shuffleArray } from '@/lib/utils';
+import { cn, shuffleArray } from '@/lib/utils';
 import { ColorCard } from '@/types/ColorCard';
 import { Card } from './ui/card';
 
 type GamePlayProps = {
-  matchCount: number;
+  // matchCount?: number; // 未來可能會有三個一組之類的玩法
+  colorTemplate: string[];
 };
 
-const GamePlay = ({ matchCount = 2 }: GamePlayProps) => {
+const GamePlay = ({ colorTemplate }: GamePlayProps) => {
   const [cards, setCards] = useState<ColorCard[]>([]);
   const [currentSelectedCards, setCurrentSelectedCards] = useState<ColorCard[]>(
     [],
   );
-  const [currentMatchIds, setCurrentMatchIds] = useState<string[]>();
 
+  // 創建格子
   const createGameBoard = useCallback((colors: string[], num: number) => {
     const gameBoard: ColorCard[] = colors.reduce<ColorCard[]>((acc, color) => {
       for (let index = 0; index < num; index++) {
@@ -30,49 +31,34 @@ const GamePlay = ({ matchCount = 2 }: GamePlayProps) => {
   }, []);
 
   // 檢查是否配對成功
-  const checkIsMatch = () => {
-    if (currentSelectedCards.length > 1) {
-      const allSameColors = currentSelectedCards.every(
-        c => c.color === currentSelectedCards[0].color,
-      );
-      if (allSameColors) {
-        // 配對成功
-        const newCards = cards.map(c => {
-          if (c.color === currentSelectedCards[0].color) {
-            c.isMatched = true;
-          }
-          return c;
-        });
-        setCards(newCards);
-        setCurrentSelectedCards([]);
-        const matchIds = currentSelectedCards.map(c => c.id);
-        setCurrentMatchIds(matchIds);
-      } else {
-        // 配對錯誤蓋回卡片
-        const newCards = cards.map(c => {
-          const needFlipIds = currentSelectedCards.map(s => s.id);
-          if (needFlipIds.includes(c.id)) {
-            c.isFlip = false;
-          }
-          return c;
-        });
+  const checkIsMatch = (card: ColorCard) => {
+    const alreadyExist = currentSelectedCards.find(c => c.id === card.id);
+    // 沒選過的才能寫入
+    if (alreadyExist) return;
 
-        setTimeout(() => {
-          setCards(newCards);
-          setCurrentSelectedCards([]);
-        }, 500);
+    const temp: ColorCard[] = [...currentSelectedCards, { ...card }];
+    const newCards = temp.reduce<ColorCard[]>((acc, card, index) => {
+      if (index % 2 === 1) {
+        // 每 2 張卡片一組，並進行配對
+        const prevCard = acc[acc.length - 1];
+        if (prevCard.color === card.color) {
+          prevCard.isMatched = true;
+          card.isMatched = true;
+        } else {
+          prevCard.isMatched = false;
+          card.isMatched = false;
+        }
       }
-    }
+      acc.push(card);
+      return acc;
+    }, []);
+
+    setCurrentSelectedCards(newCards);
   };
 
-  useEffect(() => {
-    const allColors = generateRandomColors(8);
-    const gameBoard = createGameBoard(allColors, 2);
-    setCards(gameBoard);
-  }, [createGameBoard]);
-
+  // 翻牌
   const onFlip = (id: string) => {
-    const newCards = cards.map(c => {
+    const newCards = [...cards].map(c => {
       if (c.id === id) {
         c.isFlip = true;
       }
@@ -80,6 +66,74 @@ const GamePlay = ({ matchCount = 2 }: GamePlayProps) => {
     });
     setCards(newCards);
   };
+
+  const updateCardStatus = (cardId: string) => {
+    if (currentSelectedCards.length === 0) return;
+    const currentIndex = currentSelectedCards.findIndex(
+      card => card.id === cardId,
+    );
+    // 確保找到的索引有效且不是負數
+    if (currentIndex === -1) return;
+
+    // 根據規則，找到另一個物件的索引
+    const pairIndex =
+      currentIndex % 2 === 0 ? currentIndex + 1 : currentIndex - 1;
+
+    // 另一張卡
+    const otherCard = currentSelectedCards[pairIndex];
+
+    if (currentSelectedCards[currentIndex].isMatched) {
+      setTimeout(() => {
+        setCards(state => {
+          const newCards = state.map(c => {
+            if (otherCard?.isAnimateComplete) {
+              if (c.id === cardId || c.id === otherCard?.id) {
+                c.isMatched = true;
+              }
+            } else {
+              c.isAnimateComplete = true;
+            }
+            return c;
+          });
+          return newCards;
+        });
+      }, 500);
+    } else {
+      if (otherCard?.isAnimateComplete) {
+        setTimeout(() => {
+          setCards(state => {
+            const newCards = state.map(c => {
+              if (c.id === cardId || c.id === otherCard?.id) {
+                c.isFlip = false;
+              }
+              return c;
+            });
+            return newCards;
+          });
+        }, 500);
+
+        const newCurrentSelectCards = currentSelectedCards.filter(
+          c => ![cardId, otherCard?.id].includes(c.id),
+        );
+
+        setCurrentSelectedCards(newCurrentSelectCards);
+      } else {
+        const newCurrentSelectCards = currentSelectedCards.map(c => {
+          if (c.id === cardId) {
+            c.isAnimateComplete = true;
+          }
+          return c;
+        });
+
+        setCurrentSelectedCards(newCurrentSelectCards);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const gameBoard = createGameBoard(colorTemplate, 2);
+    setCards(gameBoard);
+  }, [colorTemplate, createGameBoard]);
 
   return (
     <div className="grid grid-cols-4 gap-6">
@@ -89,12 +143,11 @@ const GamePlay = ({ matchCount = 2 }: GamePlayProps) => {
           transition={{ duration: 0.3 }}
           initial={{ rotateY: 0 }}
           animate={{ rotateY: card.isFlip ? 180 : 0 }}
-          onAnimationComplete={() => checkIsMatch()}
+          onAnimationComplete={() => updateCardStatus(card.id)}
           onClick={() => {
-            if (currentSelectedCards.length === matchCount) return;
             // 翻牌
             onFlip(card.id);
-            setCurrentSelectedCards(state => [...state, card]);
+            checkIsMatch(card);
           }}
         >
           <motion.div
@@ -104,7 +157,7 @@ const GamePlay = ({ matchCount = 2 }: GamePlayProps) => {
           >
             <Card
               className={cn(
-                'flex h-28 w-28 items-center justify-center border-2',
+                'flex h-28 w-28 items-center justify-center border-2 shadow',
                 !card.isFlip && 'cursor-pointer',
               )}
             >
@@ -120,7 +173,6 @@ const GamePlay = ({ matchCount = 2 }: GamePlayProps) => {
                 <Image
                   src="/question.svg"
                   alt="question"
-                  className="dark:invert"
                   width={50}
                   height={50}
                   priority

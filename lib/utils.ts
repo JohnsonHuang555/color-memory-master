@@ -40,3 +40,26 @@ export function shuffleArray<T>(array: T[]) {
 
   return shuffledArray;
 }
+
+/** 隨機從陣列中取幾筆資料(不打亂陣列) */
+export function getRandomElementsFromArray<T>(arr: T[], num: number) {
+  const originalArray = [...arr]; // 複製原始陣列
+  const selectedColors = [];
+
+  while (selectedColors.length < num) {
+    const randomIndex = Math.floor(Math.random() * originalArray.length);
+    selectedColors.push(originalArray[randomIndex]);
+    originalArray.splice(randomIndex, 1); // 避免重複選取
+  }
+
+  return selectedColors;
+}
+
+export function sortColorsByOriginalOrder(
+  originalArray: string[],
+  selectedColors: string[],
+) {
+  return selectedColors.sort(
+    (a, b) => originalArray.indexOf(a) - originalArray.indexOf(b),
+  );
+}
