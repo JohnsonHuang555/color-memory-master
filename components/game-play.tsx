@@ -183,7 +183,7 @@ const GamePlay = ({
   }, [isGameOver, onGameOver]);
 
   return (
-    <div className="grid grid-cols-4 gap-6 max-sm:gap-4">
+    <div className="grid grid-cols-4 gap-6 max-sm:gap-3">
       {cards.map(card => (
         <motion.div
           key={card.id}

@@ -99,7 +99,7 @@ export default function DailyLevelPage() {
   if (!colorTemplate.length) return;
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
+    <div className="flex h-full flex-col items-center justify-center">
       <div className="mb-8 max-sm:mb-12">
         <div className="mb-4 flex items-center max-sm:mb-8">
           <div className="flex flex-1 items-center text-xl font-semibold">
