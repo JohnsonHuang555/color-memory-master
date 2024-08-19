@@ -22,10 +22,17 @@ export default function RootLayout({
     <html lang="zh">
       <body
         className={cn(
-          'bg-background min-h-screen font-sans antialiased',
+          'min-h-screen bg-background font-sans antialiased',
           fontSans.variable,
         )}
       >
+        <div
+          className="absolute h-full w-full bg-cover opacity-30 max-md:bg-right"
+          style={{
+            backgroundImage: `url(/background.jpg)`,
+            zIndex: '-999',
+          }}
+        />
         {children}
       </body>
     </html>

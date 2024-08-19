@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import uuid from 'short-uuid';
@@ -7,15 +7,30 @@ import { ColorCard } from '@/types/ColorCard';
 import { Card } from './ui/card';
 
 type GamePlayProps = {
+  remainedTime: number;
   // matchCount?: number; // 未來可能會有三個一組之類的玩法
   colorTemplate: string[];
   onGameStart: () => void;
+  onGameOver: () => void;
+  onUpdateScore: () => void;
 };
 
-const GamePlay = ({ colorTemplate, onGameStart }: GamePlayProps) => {
+const GamePlay = ({
+  remainedTime,
+  colorTemplate,
+  onGameStart,
+  onGameOver,
+  onUpdateScore,
+}: GamePlayProps) => {
   const [cards, setCards] = useState<ColorCard[]>([]);
   const [currentSelectedCards, setCurrentSelectedCards] = useState<ColorCard[]>(
     [],
+  );
+
+  const isGameOver = useMemo(
+    () =>
+      remainedTime === 0 || (!!cards.length && cards.every(c => c.isMatched)),
+    [cards, remainedTime],
   );
 
   // 創建格子
@@ -53,8 +68,15 @@ const GamePlay = ({ colorTemplate, onGameStart }: GamePlayProps) => {
       acc.push(card);
       return acc;
     }, []);
-
     setCurrentSelectedCards(newCards);
+
+    const match = newCards.find(c => c.isMatched);
+    // 計算分數
+    if (match) {
+      setTimeout(() => {
+        onUpdateScore();
+      }, 300);
+    }
   };
 
   // 翻牌
@@ -101,6 +123,11 @@ const GamePlay = ({ colorTemplate, onGameStart }: GamePlayProps) => {
           return newCards;
         });
       }, 500);
+      const newCurrentSelectCards = currentSelectedCards.filter(
+        c => ![cardId, otherCard?.id].includes(c.id),
+      );
+
+      setCurrentSelectedCards(newCurrentSelectCards);
     } else {
       if (otherCard?.isAnimateComplete) {
         setTimeout(() => {
@@ -138,6 +165,23 @@ const GamePlay = ({ colorTemplate, onGameStart }: GamePlayProps) => {
     setCards(gameBoard);
   }, [colorTemplate, createGameBoard]);
 
+  // 判斷遊戲是否結束
+  useEffect(() => {
+    if (isGameOver) {
+      onGameOver();
+      setTimeout(() => {
+        setCards(state =>
+          state.map(s => {
+            s.isMatched = true;
+            s.isFlip = true;
+            return s;
+          }),
+        );
+        setCurrentSelectedCards([]);
+      }, 1000);
+    }
+  }, [isGameOver, onGameOver]);
+
   return (
     <div className="grid grid-cols-4 gap-6">
       {cards.map(card => (
@@ -148,6 +192,7 @@ const GamePlay = ({ colorTemplate, onGameStart }: GamePlayProps) => {
           animate={{ rotateY: card.isFlip ? 180 : 0 }}
           onAnimationComplete={() => updateCardStatus(card.id)}
           onClick={() => {
+            if (isGameOver) return;
             // 翻牌
             onFlip(card.id);
             checkIsMatch(card);
@@ -157,7 +202,7 @@ const GamePlay = ({ colorTemplate, onGameStart }: GamePlayProps) => {
             initial={{ scale: 1 }}
             animate={{ scale: card.isMatched ? [1, 1.15, 1] : 1 }}
             transition={{
-              ease: "linear",
+              ease: 'linear',
               duration: 0.4,
             }}
           >
