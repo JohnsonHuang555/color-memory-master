@@ -23,9 +23,35 @@ export default function Home() {
       >
         顏色配對王
       </motion.h1>
-      <p className="mb-1">遊戲規則非常簡單，只要配對到相同的顏色可獲得分數</p>
-      <p className="mb-16">當計時器歸零或全部配對成功即遊戲結束</p>
-      <section className="mb-8 flex gap-8">
+      <motion.p
+        initial={{
+          opacity: 0,
+          scale: 0.1,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          transition: { delay: 0.1 },
+        }}
+        className="mb-1 text-center"
+      >
+        遊戲規則非常簡單，只要配對到相同的顏色可獲得分數
+      </motion.p>
+      <motion.p
+        initial={{
+          opacity: 0,
+          scale: 0.1,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          transition: { delay: 0.1 },
+        }}
+        className="mb-16 text-center"
+      >
+        當計時器歸零或全部配對成功即遊戲結束
+      </motion.p>
+      <section className="mb-8 flex gap-8 max-sm:w-full max-sm:flex-col">
         <motion.div
           initial={{
             opacity: 0,
@@ -40,7 +66,7 @@ export default function Home() {
           <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 1 }}>
             <Card
               onClick={() => (window.location.href = '/daily')}
-              className="flex cursor-pointer flex-col items-center justify-center border-2 p-6"
+              className="flex cursor-pointer flex-col items-center justify-center border-2 p-6 max-sm:p-4"
             >
               <Image
                 src="/calendar.png"
@@ -67,7 +93,7 @@ export default function Home() {
           <motion.div>
             <Card
               onClick={() => {}}
-              className="flex cursor-not-allowed flex-col items-center justify-center border-2 bg-gray-300 p-6 text-gray-500"
+              className="flex cursor-not-allowed flex-col items-center justify-center border-2 bg-gray-300 p-6 text-gray-500 max-sm:p-4"
             >
               <Image
                 src="/route.png"
@@ -94,7 +120,7 @@ export default function Home() {
           <motion.div>
             <Card
               onClick={() => {}}
-              className="flex cursor-not-allowed flex-col items-center justify-center border-2 bg-gray-300 p-6 text-gray-500"
+              className="flex cursor-not-allowed flex-col items-center justify-center border-2 bg-gray-300 p-6 text-gray-500 max-sm:p-4"
             >
               <Image
                 src="/infinity.png"

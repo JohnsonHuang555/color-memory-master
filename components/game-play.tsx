@@ -183,7 +183,7 @@ const GamePlay = ({
   }, [isGameOver, onGameOver]);
 
   return (
-    <div className="grid grid-cols-4 gap-6">
+    <div className="grid grid-cols-4 gap-6 max-sm:gap-4">
       {cards.map(card => (
         <motion.div
           key={card.id}
@@ -213,7 +213,7 @@ const GamePlay = ({
             >
               <Card
                 className={cn(
-                  'flex h-28 w-28 items-center justify-center border-2 shadow',
+                  'flex h-28 w-28 items-center justify-center border-2 shadow max-sm:h-20 max-sm:w-20',
                   !card.isFlip && 'cursor-pointer',
                 )}
               >

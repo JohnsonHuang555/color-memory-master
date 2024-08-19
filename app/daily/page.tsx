@@ -100,8 +100,8 @@ export default function DailyLevelPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
-      <div className="mb-8">
-        <div className="mb-4 flex items-center">
+      <div className="mb-8 max-sm:mb-12">
+        <div className="mb-4 flex items-center max-sm:mb-8">
           <div className="flex flex-1 items-center text-xl font-semibold">
             <div className="mr-2">總分:</div>
             <motion.div>{roundedScore}</motion.div>
