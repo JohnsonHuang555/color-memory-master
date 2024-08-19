@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import uuid from 'short-uuid';
@@ -27,11 +27,9 @@ const GamePlay = ({
     [],
   );
 
-  const isGameOver = useMemo(
-    () =>
-      remainedTime === 0 || (!!cards.length && cards.every(c => c.isMatched)),
-    [cards, remainedTime],
-  );
+  console.log(cards);
+  const isGameOver =
+    remainedTime === 0 || (!!cards.length && cards.every(c => c.isMatched));
 
   // 創建格子
   const createGameBoard = useCallback((colors: string[], num: number) => {
@@ -192,7 +190,7 @@ const GamePlay = ({
           animate={{ rotateY: card.isFlip ? 180 : 0 }}
           onAnimationComplete={() => updateCardStatus(card.id)}
           onClick={() => {
-            if (isGameOver) return;
+            if (isGameOver || card.isFlip || card.isFlip) return;
             // 翻牌
             onFlip(card.id);
             checkIsMatch(card);
