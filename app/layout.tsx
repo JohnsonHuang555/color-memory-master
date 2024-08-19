@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="zh">
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          'relative h-dvh font-sans antialiased',
           fontSans.variable,
         )}
       >
