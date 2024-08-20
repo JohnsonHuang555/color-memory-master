@@ -27,7 +27,6 @@ const GamePlay = ({
     [],
   );
 
-  console.log(cards);
   const isGameOver =
     remainedTime === 0 || (!!cards.length && cards.every(c => c.isMatched));
 

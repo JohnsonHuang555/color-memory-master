@@ -29,7 +29,7 @@ export default function RootLayout({
         <div
           className="absolute h-full w-full bg-cover opacity-30 max-md:bg-right"
           style={{
-            backgroundImage: `url(/background.jpg)`,
+            backgroundImage: `url(/background.webp)`,
             zIndex: '-999',
           }}
         />

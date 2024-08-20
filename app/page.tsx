@@ -9,7 +9,7 @@ const date = new Date();
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-24">
+    <div className="flex min-h-screen flex-col items-center justify-center p-24 max-sm:p-12">
       <motion.h1
         className="mb-10 text-2xl"
         initial={{
@@ -21,7 +21,7 @@ export default function Home() {
           scale: 1,
         }}
       >
-        顏色配對王
+        配對王
       </motion.h1>
       <motion.p
         initial={{
@@ -33,25 +33,11 @@ export default function Home() {
           scale: 1,
           transition: { delay: 0.1 },
         }}
-        className="mb-1 text-center"
+        className="mb-16 w-[450px] text-center max-sm:w-full"
       >
-        遊戲規則非常簡單，只要配對到相同的顏色可獲得分數
+        遊戲規則非常簡單，只要配對到相同的牌可獲得分數，當計時器歸零或完成所有關卡即遊戲結束
       </motion.p>
-      <motion.p
-        initial={{
-          opacity: 0,
-          scale: 0.1,
-        }}
-        animate={{
-          opacity: 1,
-          scale: 1,
-          transition: { delay: 0.1 },
-        }}
-        className="mb-16 text-center"
-      >
-        當計時器歸零或全部配對成功即遊戲結束
-      </motion.p>
-      <section className="mb-8 flex gap-8 max-sm:w-full max-sm:flex-col">
+      <section className="mb-8 grid grid-cols-3 gap-8 max-sm:mb-10 max-sm:w-full max-sm:grid-cols-2 max-sm:gap-4">
         <motion.div
           initial={{
             opacity: 0,
@@ -65,17 +51,17 @@ export default function Home() {
         >
           <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 1 }}>
             <Card
-              onClick={() => (window.location.href = '/daily')}
+              onClick={() => (window.location.href = '/color')}
               className="flex cursor-pointer flex-col items-center justify-center border-2 p-6 max-sm:p-4"
             >
               <Image
-                src="/calendar.png"
-                alt="每日挑戰"
+                src="/palette.png"
+                alt="顏色"
                 width={48}
                 height={48}
                 priority
               />
-              <div className="mt-2 text-lg font-semibold">每日挑戰</div>
+              <div className="mt-2 text-lg font-semibold">顏色</div>
             </Card>
           </motion.div>
         </motion.div>
@@ -96,13 +82,13 @@ export default function Home() {
               className="flex cursor-not-allowed flex-col items-center justify-center border-2 bg-gray-300 p-6 text-gray-500 max-sm:p-4"
             >
               <Image
-                src="/route.png"
-                alt="闖關模式"
+                src="/chinese.png"
+                alt="中文字"
                 width={48}
                 height={48}
                 priority
               />
-              <div className="mt-2 text-lg font-semibold">闖關模式</div>
+              <div className="mt-2 text-lg font-semibold">中文字</div>
             </Card>
           </motion.div>
         </motion.div>
@@ -123,13 +109,13 @@ export default function Home() {
               className="flex cursor-not-allowed flex-col items-center justify-center border-2 bg-gray-300 p-6 text-gray-500 max-sm:p-4"
             >
               <Image
-                src="/infinity.png"
-                alt="無限模式"
+                src="/english.png"
+                alt="英文字"
                 width={48}
                 height={48}
                 priority
               />
-              <div className="mt-2 text-lg font-semibold">無限模式</div>
+              <div className="mt-2 text-lg font-semibold">英文字</div>
             </Card>
           </motion.div>
         </motion.div>
