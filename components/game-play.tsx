@@ -6,6 +6,7 @@ import { cn, shuffleArray } from '@/lib/utils';
 import { useGameStore } from '@/stores/game-store';
 import { CardContent } from '@/types/CardContent';
 import { GameStatus } from '@/types/GameStatus';
+import { GameTheme } from '@/types/GameTheme';
 import { Card } from './ui/card';
 
 // 配對分數
@@ -13,15 +14,16 @@ const MATCH_SCORE = 30;
 
 type GamePlayProps = {
   minWidth?: number;
+  gameTheme: GameTheme;
 };
-const GamePlay = ({ minWidth }: GamePlayProps) => {
+
+const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
   const {
     cardContents,
     onUpdateScore,
     gameStatus,
     onUpdateGameStatus,
-    level,
-    onNextLevel,
+    createCardContents,
   } = useGameStore(state => state);
 
   const [cards, setCards] = useState<CardContent[]>([]);
@@ -173,21 +175,17 @@ const GamePlay = ({ minWidth }: GamePlayProps) => {
     if (cards.length) {
       // 全部配對完成
       const isComplete = cards.every(c => c.isMatched);
-      if (isComplete && level < 5) {
-        if (level < 5) {
-          setCards([]);
-          setTimeout(() => {
-            onNextLevel();
-          }, 1000);
-        } else {
-          // game over
-          onUpdateGameStatus(GameStatus.GameOver);
-        }
+      if (isComplete) {
+        setCards([]);
         setCurrentSelectedCards([]);
+
+        setTimeout(() => {
+          createCardContents(gameTheme);
+        }, 1000);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cards, onNextLevel]);
+  }, [cards]);
 
   // 判斷遊戲是否結束
   // useEffect(() => {
@@ -208,14 +206,7 @@ const GamePlay = ({ minWidth }: GamePlayProps) => {
 
   return (
     <div
-      className={cn(
-        'grid',
-        level === 1 && 'grid-cols-2 gap-8 max-sm:gap-8',
-        level === 2 && 'grid-cols-4 gap-4 max-sm:gap-3',
-        level === 3 && 'grid-cols-6 gap-2 max-sm:gap-2',
-        level === 4 && 'grid-cols-8 gap-1',
-        level === 5 && 'grid-cols-10 gap-[2px]',
-      )}
+      className={cn('grid', 'grid-cols-4 gap-4 max-md:gap-3')}
       style={{ minHeight: minWidth }}
     >
       <AnimatePresence>
@@ -252,13 +243,13 @@ const GamePlay = ({ minWidth }: GamePlayProps) => {
                 >
                   <motion.div
                     initial={{ scale: 1 }}
-                    whileHover={{ scale: card.isFlip ? 1 : 1.1 }}
+                    whileHover={{ scale: card.isFlip || isGameOver ? 1 : 1.1 }}
                     whileTap={{ scale: 1 }}
                   >
                     <Card
                       className={cn(
                         'flex aspect-square w-full items-center justify-center border-2 shadow-sm',
-                        !card.isFlip && 'cursor-pointer',
+                        !isGameOver && !card.isFlip && 'cursor-pointer',
                       )}
                     >
                       {card.isFlip ? (
