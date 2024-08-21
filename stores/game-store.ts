@@ -25,7 +25,7 @@ type GameActions = {
 type GameStore = GameState & GameActions;
 
 const defaultInitState: GameState = {
-  level: 5,
+  level: 1,
   cardContents: [],
   score: 0,
   remainedTime: 100, // 預設 100秒
