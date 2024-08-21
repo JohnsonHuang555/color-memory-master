@@ -1,6 +1,6 @@
-export type ColorCard = {
+export type CardContent = {
   id: string;
-  color: string;
+  content: string;
   isFlip: boolean;
   isMatched: boolean;
   isAnimateComplete?: boolean;

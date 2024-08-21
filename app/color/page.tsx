@@ -1,54 +1,56 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 import GameTemplate from '@/components/game-template';
 import { colorPacks } from '@/lib/colors';
 import {
-  cn,
   getRandomElementsFromArray,
   sortColorsByOriginalOrder,
 } from '@/lib/utils';
+import { useGameStore } from '@/stores/game-store';
+
+const allColors: string[] = [
+  ...colorPacks.red,
+  ...colorPacks.yellow,
+  ...colorPacks.pink,
+  ...colorPacks.green,
+  ...colorPacks.orange,
+  ...colorPacks.blue,
+  ...colorPacks.purple,
+];
 
 export default function ColorPage() {
-  const [cardContents, setCardContents] = useState<string[]>([]);
+  const { level, createCardContents, cardContents } = useGameStore(
+    state => state,
+  );
 
   useEffect(() => {
-    const today = new Date();
-    const weekday = today.getDay();
-    let colors: string[] = [];
-    switch (weekday) {
-      case 0:
-        colors = colorPacks.red;
-        break;
-      case 1:
-        colors = colorPacks.yellow;
-        break;
-      case 2:
-        colors = colorPacks.pink;
-        break;
-      case 3:
-        colors = colorPacks.green;
-        break;
-      case 4:
-        colors = colorPacks.orange;
-        break;
-      case 5:
-        colors = colorPacks.blue;
-        break;
-      case 6:
-        colors = colorPacks.purple;
-        break;
-    }
-    const newColors = getRandomElementsFromArray(colors, 8);
-    const sortedColors = sortColorsByOriginalOrder(colors, newColors);
-    setCardContents(sortedColors);
-  }, []);
+    createCardContents(allColors);
+  }, [createCardContents, level]);
 
   if (!cardContents.length) return;
 
   return (
-    <div className="flex h-full flex-col items-center justify-center">
-      <GameTemplate cardContents={cardContents} />
+    <div className="flex h-full w-[600px] flex-col items-center justify-center p-24 max-md:w-2/3 max-md:p-6 max-sm:w-full max-sm:p-3">
+      <GameTemplate />
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="flex flex-col items-center justify-center"
+      >
+        <div className="mb-2 text-sm">顏色種類</div>
+        <div className="flex flex-wrap justify-center gap-3">
+          {cardContents.map(content => (
+            <div
+              key={content}
+              className="h-6 w-6 rounded-md border-2"
+              style={{ backgroundColor: content }}
+            />
+          ))}
+        </div>
+      </motion.section>
     </div>
   );
 }

@@ -9,7 +9,7 @@ const date = new Date();
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-24 max-sm:p-12">
+    <div className="flex flex-col items-center justify-center p-24 max-sm:p-12">
       <motion.h1
         className="mb-10 text-2xl"
         initial={{

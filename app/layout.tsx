@@ -27,13 +27,15 @@ export default function RootLayout({
         )}
       >
         <div
-          className="absolute h-full w-full bg-cover opacity-30 max-md:bg-right"
+          className="absolute h-full w-full bg-cover opacity-30 max-md:bg-center"
           style={{
             backgroundImage: `url(/background.webp)`,
             zIndex: '-999',
           }}
         />
-        {children}
+        <main className="flex h-full items-center justify-center">
+          {children}
+        </main>
       </body>
     </html>
   );
