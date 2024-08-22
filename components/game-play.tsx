@@ -224,38 +224,38 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
                     duration: 0.4,
                   }}
                 >
-                  {/* <motion.div
+                  <motion.div
                     initial={{ scale: 1 }}
                     whileHover={{ scale: card.isFlip || isGameOver ? 1 : 1.05 }}
                     whileTap={{ scale: 1 }}
-                  > */}
-                  <Card
-                    className={cn(
-                      'flex aspect-square w-full items-center justify-center border-2 shadow-sm',
-                      !isGameOver && !card.isFlip && 'cursor-pointer',
-                    )}
                   >
-                    {card.isFlip ? (
-                      <motion.div
-                        className="h-full w-full rounded-lg"
-                        style={{ backgroundColor: card.content }}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                      />
-                    ) : (
-                      <div className="w-1/2">
-                        <Image
-                          src="/question.svg"
-                          alt="question"
-                          width={100}
-                          height={100}
-                          priority
+                    <Card
+                      className={cn(
+                        'flex aspect-square w-full items-stretch justify-center border-2 shadow-sm',
+                        !isGameOver && !card.isFlip && 'cursor-pointer',
+                      )}
+                    >
+                      {card.isFlip ? (
+                        <motion.div
+                          className="w-full flex-1 rounded-lg"
+                          style={{ backgroundColor: card.content }}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.2 }}
                         />
-                      </div>
-                    )}
-                  </Card>
-                  {/* </motion.div> */}
+                      ) : (
+                        <div className="flex w-1/2 items-center">
+                          <Image
+                            src="/question.svg"
+                            alt="question"
+                            width={100}
+                            height={100}
+                            priority
+                          />
+                        </div>
+                      )}
+                    </Card>
+                  </motion.div>
                 </motion.div>
               </motion.div>
             </motion.div>
