@@ -187,23 +187,6 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards]);
 
-  // 判斷遊戲是否結束
-  // useEffect(() => {
-  //   if (isGameOver) {
-  //     onGameOver();
-  //     setTimeout(() => {
-  //       setCards(state =>
-  //         state.map(s => {
-  //           s.isMatched = true;
-  //           s.isFlip = true;
-  //           return s;
-  //         }),
-  //       );
-  //       setCurrentSelectedCards([]);
-  //     }, 1000);
-  //   }
-  // }, [isGameOver, onGameOver]);
-
   return (
     <div
       className={cn('grid', 'grid-cols-4 gap-4 max-md:gap-3')}
@@ -218,7 +201,7 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
             transition={{ delay: 0.5 }}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.1 }}
+              initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
             >
               <motion.div
@@ -241,38 +224,38 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
                     duration: 0.4,
                   }}
                 >
-                  <motion.div
+                  {/* <motion.div
                     initial={{ scale: 1 }}
-                    whileHover={{ scale: card.isFlip || isGameOver ? 1 : 1.1 }}
+                    whileHover={{ scale: card.isFlip || isGameOver ? 1 : 1.05 }}
                     whileTap={{ scale: 1 }}
+                  > */}
+                  <Card
+                    className={cn(
+                      'flex aspect-square w-full items-center justify-center border-2 shadow-sm',
+                      !isGameOver && !card.isFlip && 'cursor-pointer',
+                    )}
                   >
-                    <Card
-                      className={cn(
-                        'flex aspect-square w-full items-center justify-center border-2 shadow-sm',
-                        !isGameOver && !card.isFlip && 'cursor-pointer',
-                      )}
-                    >
-                      {card.isFlip ? (
-                        <motion.div
-                          className="h-full w-full rounded-lg"
-                          style={{ backgroundColor: card.content }}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.2 }}
+                    {card.isFlip ? (
+                      <motion.div
+                        className="h-full w-full rounded-lg"
+                        style={{ backgroundColor: card.content }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      />
+                    ) : (
+                      <div className="w-1/2">
+                        <Image
+                          src="/question.svg"
+                          alt="question"
+                          width={100}
+                          height={100}
+                          priority
                         />
-                      ) : (
-                        <div className="w-1/2">
-                          <Image
-                            src="/question.svg"
-                            alt="question"
-                            width={100}
-                            height={100}
-                            priority
-                          />
-                        </div>
-                      )}
-                    </Card>
-                  </motion.div>
+                      </div>
+                    )}
+                  </Card>
+                  {/* </motion.div> */}
                 </motion.div>
               </motion.div>
             </motion.div>
