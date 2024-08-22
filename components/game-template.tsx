@@ -86,25 +86,23 @@ const GameTemplate = ({ gameTheme }: GameTemplateProps) => {
         onClose={() => setShowGameOverModal(true)}
       />
       <div className="mb-6 flex w-full items-center" ref={ref}>
-        <div className="flex flex-1 items-center text-xl font-semibold">
+        <div className="flex flex-1 items-center text-lg font-semibold">
           <div className="mr-2">總分:</div>
           <motion.div>{roundedScore}</motion.div>
         </div>
-        {remainedTime === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex-1 text-center text-lg font-semibold text-red-700"
-          >
-            遊戲結束
-          </motion.div>
-        )}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="flex-1 text-center text-lg font-semibold"
+        >
+          Level 1
+        </motion.div>
         <div className="flex flex-1 items-center justify-end">
-          <Image src="/timer.svg" alt="timer" width={28} height={28} priority />
+          <Image src="/timer.svg" alt="timer" width={24} height={24} priority />
           <div
             className={cn(
-              'ml-1 min-w-[30px] text-right text-xl font-semibold',
+              'ml-1 min-w-[30px] text-right text-lg font-semibold',
               remainedTime <= 10 && 'text-red-500',
             )}
           >
@@ -112,7 +110,7 @@ const GameTemplate = ({ gameTheme }: GameTemplateProps) => {
           </div>
         </div>
       </div>
-      <div className="mb-8">
+      <div className="mb-8 w-full">
         <GamePlay minWidth={minWidth} gameTheme={gameTheme} />
       </div>
     </>

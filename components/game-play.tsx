@@ -176,12 +176,14 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
       // 全部配對完成
       const isComplete = cards.every(c => c.isMatched);
       if (isComplete) {
-        setCards([]);
-        setCurrentSelectedCards([]);
+        setTimeout(() => {
+          setCards([]);
+          setCurrentSelectedCards([]);
+        }, 300);
 
         setTimeout(() => {
           createCardContents(gameTheme);
-        }, 1000);
+        }, 500);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,76 +194,80 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
       className={cn('grid', 'grid-cols-4 gap-4 max-md:gap-3')}
       style={{ minHeight: minWidth }}
     >
-      <AnimatePresence>
-        {cards.map(card => (
-          <motion.div
-            key={card.id}
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ delay: 0.5 }}
-          >
+      {cards.length > 0 && (
+        <AnimatePresence>
+          {cards.map(card => (
             <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
+              key={card.id}
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.5 }}
             >
               <motion.div
-                transition={{ duration: 0.3 }}
-                initial={{ rotateY: 0 }}
-                animate={{ rotateY: card.isFlip ? 180 : 0 }}
-                onAnimationComplete={() => updateCardStatus(card.id)}
-                onClick={() => {
-                  if (isGameOver || card.isFlip) return;
-                  // 翻牌
-                  onFlip(card.id);
-                  checkIsMatch(card);
-                }}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
               >
                 <motion.div
-                  initial={{ scale: 1 }}
-                  animate={{ scale: card.isMatched ? [1, 1.15, 1] : 1 }}
-                  transition={{
-                    ease: 'linear',
-                    duration: 0.4,
+                  transition={{ duration: 0.3 }}
+                  initial={{ rotateY: 0 }}
+                  animate={{ rotateY: card.isFlip ? 180 : 0 }}
+                  onAnimationComplete={() => updateCardStatus(card.id)}
+                  onClick={() => {
+                    if (isGameOver || card.isFlip) return;
+                    // 翻牌
+                    onFlip(card.id);
+                    checkIsMatch(card);
                   }}
                 >
                   <motion.div
                     initial={{ scale: 1 }}
-                    whileHover={{ scale: card.isFlip || isGameOver ? 1 : 1.05 }}
-                    whileTap={{ scale: 1 }}
+                    animate={{ scale: card.isMatched ? [1, 1.15, 1] : 1 }}
+                    transition={{
+                      ease: 'linear',
+                      duration: 0.4,
+                    }}
                   >
-                    <Card
-                      className={cn(
-                        'flex aspect-square w-full items-stretch justify-center border-2 shadow-sm',
-                        !isGameOver && !card.isFlip && 'cursor-pointer',
-                      )}
+                    <motion.div
+                      initial={{ scale: 1 }}
+                      whileHover={{
+                        scale: card.isFlip || isGameOver ? 1 : 1.05,
+                      }}
+                      whileTap={{ scale: 1 }}
                     >
-                      {card.isFlip ? (
-                        <motion.div
-                          className="w-full flex-1 rounded-lg"
-                          style={{ backgroundColor: card.content }}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.2 }}
-                        />
-                      ) : (
-                        <div className="flex w-1/2 items-center">
-                          <Image
-                            src="/question.svg"
-                            alt="question"
-                            width={100}
-                            height={100}
-                            priority
+                      <Card
+                        className={cn(
+                          'flex aspect-square w-full items-stretch justify-center border-2 shadow-sm',
+                          !isGameOver && !card.isFlip && 'cursor-pointer',
+                        )}
+                      >
+                        {card.isFlip ? (
+                          <motion.div
+                            className="w-full flex-1 rounded-lg"
+                            style={{ backgroundColor: card.content }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.2 }}
                           />
-                        </div>
-                      )}
-                    </Card>
+                        ) : (
+                          <div className="flex w-1/2 items-center">
+                            <Image
+                              src="/question.svg"
+                              alt="question"
+                              width={100}
+                              height={100}
+                              priority
+                            />
+                          </div>
+                        )}
+                      </Card>
+                    </motion.div>
                   </motion.div>
                 </motion.div>
               </motion.div>
             </motion.div>
-          </motion.div>
-        ))}
-      </AnimatePresence>
+          ))}
+        </AnimatePresence>
+      )}
       {/* 不能點的 */}
       {/* {cards.length > 0 && level % 2 === 0 && (
         <motion.div

@@ -1,3 +1,5 @@
+import { Weekday } from "@/types/GameTheme";
+
 export const colorPacks = {
   slate: [
     '#f8fafc',
@@ -285,4 +287,50 @@ export const colorPacks = {
     '#881337',
     '#4c0519',
   ],
+};
+
+const colorLevels = {
+  [Weekday.Sunday]: {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+  },
+  [Weekday.Monday]: colorPacks.red,
+  [Weekday.Tuesday]: colorPacks.orange,
+  [Weekday.Wednesday]: colorPacks.yellow,
+  [Weekday.Thursday]: colorPacks.green,
+  [Weekday.Friday]: colorPacks.blue,
+  [Weekday.Saturday]: colorPacks.purple,
+}
+
+export const createColorContents = (level: number) => {
+  const today = new Date();
+  const weekday = today.getDay();
+  const colors: string[] = [];
+  switch (weekday) {
+    case 0: {
+
+      break;
+    }
+    case 1: {
+      break;
+    }
+    case 2: {
+      break;
+    }
+    case 3: {
+      break;
+    }
+    case 4: {
+      break;
+    }
+    case 5: {
+      break;
+    }
+    case 6: {
+      break;
+    }
+  }
 };

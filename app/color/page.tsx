@@ -29,7 +29,7 @@ export default function ColorPage() {
         transition={{ delay: 0.3 }}
         className="flex flex-col items-center justify-center"
       >
-        <div className="mb-2 text-base">顏色種類</div>
+        <div className="mb-2 text-sm">顏色種類</div>
         <div className="flex flex-wrap justify-center gap-3">
           {cardContents.map(content => (
             <div

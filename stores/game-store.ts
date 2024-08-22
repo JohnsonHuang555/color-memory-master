@@ -5,6 +5,7 @@ import { GameStatus } from '@/types/GameStatus';
 import { GameTheme } from '@/types/GameTheme';
 
 type GameState = {
+  // level: number;
   cardContents: string[];
   score: number;
   remainedTime: number;
@@ -36,8 +37,9 @@ export const useGameStore = create<GameStore>()(set => ({
     set(state => ({ remainedTime: state.remainedTime + value })),
   onUpdateGameStatus: gameStatus => set(() => ({ gameStatus })),
   createCardContents: (theme: GameTheme) =>
-    set(() => {
+    set(state => {
       let newContents: string[] = [];
+
       switch (theme) {
         case GameTheme.Color:
           const allColors: string[] = [
