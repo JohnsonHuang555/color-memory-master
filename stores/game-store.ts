@@ -1,15 +1,17 @@
 import { create } from 'zustand';
-import { colorPacks } from '@/lib/colors';
+import { createColorContents } from '@/lib/colors';
 import { getRandomElementsFromArray } from '@/lib/utils';
 import { GameStatus } from '@/types/GameStatus';
 import { GameTheme } from '@/types/GameTheme';
 
 type GameState = {
-  // level: number;
+  level: number;
+  allContents: string[]; // 總題庫
   cardContents: string[];
   score: number;
   remainedTime: number;
   gameStatus: GameStatus;
+  combo: number;
 };
 
 type GameActions = {
@@ -18,15 +20,19 @@ type GameActions = {
   onUpdateRemainedTime: (value: number) => void;
   onUpdateGameStatus: (gameStatus: GameStatus) => void;
   createCardContents: (theme: GameTheme) => void; // 建立題目
+  onNextLevel: () => void;
 };
 
 type GameStore = GameState & GameActions;
 
 const defaultInitState: GameState = {
+  level: 1,
+  allContents: [],
   cardContents: [],
   score: 0,
   remainedTime: 100, // 預設 100秒
   gameStatus: GameStatus.Idle,
+  combo: 0,
 };
 
 export const useGameStore = create<GameStore>()(set => ({
@@ -38,23 +44,13 @@ export const useGameStore = create<GameStore>()(set => ({
   onUpdateGameStatus: gameStatus => set(() => ({ gameStatus })),
   createCardContents: (theme: GameTheme) =>
     set(state => {
-      let newContents: string[] = [];
-
       switch (theme) {
         case GameTheme.Color:
-          const allColors: string[] = [
-            ...colorPacks.red,
-            ...colorPacks.yellow,
-            ...colorPacks.pink,
-            ...colorPacks.green,
-            ...colorPacks.orange,
-            ...colorPacks.blue,
-            ...colorPacks.purple,
-          ];
-          newContents = getRandomElementsFromArray(allColors, 8);
-          // const sortedContents = sortColorsByOriginalOrder(allColors, newContents);
-          break;
+          const allColors = createColorContents(state.level, state.allContents);
+          const randomContents = getRandomElementsFromArray(allColors, 8);
+          // newContents = sortColorsByOriginalOrder(allColors, randomContents);
+          return { cardContents: randomContents, allContents: allColors };
       }
-      return { cardContents: newContents };
     }),
+  onNextLevel: () => set(state => ({ level: state.level + 1 })),
 }));

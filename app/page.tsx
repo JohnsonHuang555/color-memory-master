@@ -56,7 +56,7 @@ export default function Home() {
             >
               <Image
                 src="/palette.png"
-                alt="顏色"
+                alt="colors"
                 width={48}
                 height={48}
                 priority
@@ -83,7 +83,7 @@ export default function Home() {
             >
               <Image
                 src="/chinese.png"
-                alt="中文字"
+                alt="chinese-word"
                 width={48}
                 height={48}
                 priority
@@ -110,7 +110,7 @@ export default function Home() {
             >
               <Image
                 src="/english.png"
-                alt="英文字"
+                alt="english-word"
                 width={48}
                 height={48}
                 priority

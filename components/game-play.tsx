@@ -7,6 +7,7 @@ import { useGameStore } from '@/stores/game-store';
 import { CardContent } from '@/types/CardContent';
 import { GameStatus } from '@/types/GameStatus';
 import { GameTheme } from '@/types/GameTheme';
+import { Item } from '@/types/Item';
 import { Card } from './ui/card';
 
 // 配對分數
@@ -15,15 +16,18 @@ const MATCH_SCORE = 30;
 type GamePlayProps = {
   minWidth?: number;
   gameTheme: GameTheme;
+  contentChildren: (v: string) => React.ReactNode;
 };
 
-const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
+const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
   const {
     cardContents,
     onUpdateScore,
     gameStatus,
     onUpdateGameStatus,
     createCardContents,
+    onUpdateRemainedTime,
+    onNextLevel,
   } = useGameStore(state => state);
 
   const [cards, setCards] = useState<CardContent[]>([]);
@@ -76,6 +80,11 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
     const match = newCards.find(c => c.isMatched);
     // 計算分數
     if (match) {
+      if (match.content === Item.Clock) {
+        setTimeout(() => {
+          onUpdateRemainedTime(20);
+        }, 500);
+      }
       setTimeout(() => {
         onUpdateScore(MATCH_SCORE);
       }, 300);
@@ -182,12 +191,33 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
         }, 300);
 
         setTimeout(() => {
+          onNextLevel();
           createCardContents(gameTheme);
         }, 500);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards]);
+
+  const renderChildren = (content: string) => {
+    if (content === Item.Clock) {
+      return (
+        <div className="flex w-full flex-1 items-center justify-center rounded-lg bg-stone-50">
+          <div className="w-1/2 items-center">
+            <Image
+              src="/timer-add.png"
+              alt="timer-add"
+              width={100}
+              height={100}
+              priority
+            />
+          </div>
+        </div>
+      );
+    } else {
+      return contentChildren(content);
+    }
+  };
 
   return (
     <div
@@ -241,13 +271,7 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
                         )}
                       >
                         {card.isFlip ? (
-                          <motion.div
-                            className="w-full flex-1 rounded-lg"
-                            style={{ backgroundColor: card.content }}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                          />
+                          <>{renderChildren(card.content)}</>
                         ) : (
                           <div className="flex w-1/2 items-center">
                             <Image
@@ -268,20 +292,6 @@ const GamePlay = ({ minWidth, gameTheme }: GamePlayProps) => {
           ))}
         </AnimatePresence>
       )}
-      {/* 不能點的 */}
-      {/* {cards.length > 0 && level % 2 === 0 && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: cards.length * 0.1 }}
-        >
-          <Card
-            className={cn(
-              'flex aspect-square w-full cursor-not-allowed items-center justify-center border-2 opacity-45 shadow',
-            )}
-          />
-        </motion.div>
-      )} */}
     </div>
   );
 };

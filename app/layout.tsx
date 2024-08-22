@@ -9,8 +9,9 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: '記憶的極限',
-  description: '測試',
+  title: '記憶迴圈',
+  description:
+    '這是一款挑戰你的反應力及記憶力的翻牌配對遊戲，有各種有趣特別的主題可以選擇，一起與世界上的玩家比拼排名吧',
 };
 
 export default function RootLayout({
@@ -27,7 +28,7 @@ export default function RootLayout({
         )}
       >
         <div
-          className="absolute h-full w-full bg-cover opacity-30 max-md:bg-center"
+          className="absolute h-full w-full bg-cover bg-center opacity-30"
           style={{
             backgroundImage: `url(/background.webp)`,
             zIndex: '-999',

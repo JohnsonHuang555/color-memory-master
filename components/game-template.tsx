@@ -12,9 +12,10 @@ let timerId: any = null;
 
 type GameTemplateProps = {
   gameTheme: GameTheme;
+  contentChildren: (v: string) => React.ReactNode;
 };
 
-const GameTemplate = ({ gameTheme }: GameTemplateProps) => {
+const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
   const [minWidth, setMinWidth] = useState<number>();
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const ref = useRef<any>();
@@ -24,6 +25,7 @@ const GameTemplate = ({ gameTheme }: GameTemplateProps) => {
     onUpdateRemainedTime,
     gameStatus,
     onUpdateGameStatus,
+    level,
   } = useGameStore(state => state);
 
   // 分數動畫
@@ -96,7 +98,7 @@ const GameTemplate = ({ gameTheme }: GameTemplateProps) => {
           exit={{ opacity: 0 }}
           className="flex-1 text-center text-lg font-semibold"
         >
-          Level 1
+          Level {level}
         </motion.div>
         <div className="flex flex-1 items-center justify-end">
           <Image src="/timer.svg" alt="timer" width={24} height={24} priority />
@@ -111,7 +113,12 @@ const GameTemplate = ({ gameTheme }: GameTemplateProps) => {
         </div>
       </div>
       <div className="mb-8 w-full">
-        <GamePlay minWidth={minWidth} gameTheme={gameTheme} />
+        <GamePlay
+          minWidth={minWidth}
+          gameTheme={gameTheme}
+          contentChildren={contentChildren}
+        />
+        {/* <div className="mt-4 text-center text-lg font-semibold">Combo</div> */}
       </div>
     </>
   );

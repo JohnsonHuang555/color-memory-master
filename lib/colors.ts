@@ -1,4 +1,5 @@
-import { Weekday } from "@/types/GameTheme";
+import { Weekday } from '@/types/GameTheme';
+import { Item } from '@/types/Item';
 
 export const colorPacks = {
   slate: [
@@ -289,48 +290,270 @@ export const colorPacks = {
   ],
 };
 
-const colorLevels = {
-  [Weekday.Sunday]: {
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-  },
-  [Weekday.Monday]: colorPacks.red,
-  [Weekday.Tuesday]: colorPacks.orange,
-  [Weekday.Wednesday]: colorPacks.yellow,
-  [Weekday.Thursday]: colorPacks.green,
-  [Weekday.Friday]: colorPacks.blue,
-  [Weekday.Saturday]: colorPacks.purple,
-}
-
-export const createColorContents = (level: number) => {
+export const createColorContents = (level: number, currentColors: string[]) => {
   const today = new Date();
   const weekday = today.getDay();
-  const colors: string[] = [];
+  let newColors: string[] = [];
   switch (weekday) {
-    case 0: {
-
+    case Weekday.Sunday: {
+      if (level === 1) {
+        newColors = [
+          '#FFFFFF',
+          '#CFD8DC',
+          '#90A4AE',
+          '#607D8B',
+          '#546E7A',
+          '#37474F',
+          '#263238',
+          '#000000',
+        ];
+      } else if (level === 2) {
+        newColors = [
+          ...currentColors,
+          '#757575',
+          '#1e293b',
+          '#020617',
+          Item.Clock,
+        ];
+      } else if (level === 3) {
+        newColors = [...currentColors, '#BDBDBD', '#94a3b8', '#27272a'];
+      } else if (level === 4) {
+        newColors = [
+          ...currentColors,
+          '#424242',
+          '#a1a1aa',
+          '#737373',
+          Item.Clock,
+        ];
+      } else if (level === 5) {
+        newColors = [...currentColors, '#E0E0E0', '#e7e5e4', '#44403c'];
+      } else {
+        newColors = [...currentColors, Item.Clock];
+      }
       break;
     }
-    case 1: {
+    case Weekday.Monday: {
+      if (level === 1) {
+        newColors = [
+          '#FFEBEE',
+          '#FFCDD2',
+          '#EF9A9A',
+          '#FF8A80',
+          '#EF5350',
+          '#FF1744',
+          '#B71C1C',
+          '#450a0a',
+        ];
+      } else if (level === 2) {
+        newColors = [
+          ...currentColors,
+          '#880E4F',
+          '#ef4444',
+          '#fda4af',
+          Item.Clock,
+        ];
+      } else if (level === 3) {
+        newColors = [...currentColors, '#E57373', '#9f1239', '#f9a8d4'];
+      } else if (level === 4) {
+        newColors = [
+          ...currentColors,
+          '#FF4081',
+          '#500724',
+          '#f43f5e',
+          Item.Clock,
+        ];
+      } else if (level === 5) {
+        newColors = [...currentColors, '#FF0000', '#fff1f2', '#fbcfe8'];
+      } else {
+        newColors = [...currentColors, Item.Clock];
+      }
       break;
     }
-    case 2: {
+    case Weekday.Tuesday: {
+      if (level === 1) {
+        newColors = [
+          '#FFFDE7',
+          '#FFF59D',
+          '#FFD600',
+          '#FBC02D',
+          '#F9A825',
+          '#F57F17',
+          '#a16207',
+          '#422006',
+        ];
+      } else if (level === 2) {
+        newColors = [
+          ...currentColors,
+          '#FFFF00',
+          '#fffbeb',
+          '#fde047',
+          Item.Clock,
+        ];
+      } else if (level === 3) {
+        newColors = [...currentColors, '#FFEB3B', '#FFFF8D', '#F4FF81'];
+      } else if (level === 4) {
+        newColors = [
+          ...currentColors,
+          '#ca8a04',
+          '#C0CA33',
+          '#D4E157',
+          Item.Clock,
+        ];
+      } else if (level === 5) {
+        newColors = [...currentColors, '#fef08a', '#827717', '#AEEA00'];
+      } else {
+        newColors = [...currentColors, Item.Clock];
+      }
       break;
     }
-    case 3: {
+    case Weekday.Wednesday: {
+      if (level === 1) {
+        newColors = [
+          '#FBE9E7',
+          '#FF8A65',
+          '#FF5722',
+          '#D84315',
+          '#BF360C',
+          '#FF6D00',
+          '#FF9800',
+          '#431407',
+        ];
+      } else if (level === 2) {
+        newColors = [
+          ...currentColors,
+          '#FFCCBC',
+          '#451a03',
+          '#ea580c',
+          Item.Clock,
+        ];
+      } else if (level === 3) {
+        newColors = [...currentColors, '#f59e0b', '#7c2d12', '#ffedd5'];
+      } else if (level === 4) {
+        newColors = [
+          ...currentColors,
+          '#fde68a',
+          '#fcd34d',
+          '#FF9100',
+          Item.Clock,
+        ];
+      } else if (level === 5) {
+        newColors = [...currentColors, '#92400e', '#A1887F', '#795548'];
+      } else {
+        newColors = [...currentColors, Item.Clock];
+      }
       break;
     }
-    case 4: {
+    case Weekday.Thursday: {
+      if (level === 1) {
+        newColors = [
+          '#E8F5E9',
+          '#B9F6CA',
+          '#69F0AE',
+          '#66BB6A',
+          '#a3e635',
+          '#2E7D32',
+          '#1B5E20',
+          '#16a34a',
+        ];
+      } else if (level === 2) {
+        newColors = [
+          ...currentColors,
+          '#43A047',
+          '#bef264',
+          '#84cc16',
+          Item.Clock,
+        ];
+      } else if (level === 3) {
+        newColors = [...currentColors, '#365314', '#86efac', '#052e16'];
+      } else if (level === 4) {
+        newColors = [
+          ...currentColors,
+          '#00E676',
+          '#166534',
+          '#bbf7d0',
+          Item.Clock,
+        ];
+      } else if (level === 5) {
+        newColors = [...currentColors, '#C0CA33', '#4d7c0f', '#76FF03'];
+      } else {
+        newColors = [...currentColors, Item.Clock];
+      }
       break;
     }
-    case 5: {
+    case Weekday.Friday: {
+      if (level === 1) {
+        newColors = [
+          '#E3F2FD',
+          '#90CAF9',
+          '#82B1FF',
+          '#2196F3',
+          '#1976D2',
+          '#5C6BC0',
+          '#0D47A1',
+          '#164e63',
+        ];
+      } else if (level === 2) {
+        newColors = [
+          ...currentColors,
+          '#2962FF',
+          '#0891b2',
+          '#22d3ee',
+          Item.Clock,
+        ];
+      } else if (level === 3) {
+        newColors = [...currentColors, '#cffafe', '#a5f3fc', '#164e63'];
+      } else if (level === 4) {
+        newColors = [
+          ...currentColors,
+          '#0e7490',
+          '#7dd3fc',
+          '#082f49',
+          Item.Clock,
+        ];
+      } else if (level === 5) {
+        newColors = [...currentColors, '#01579B', '#1e40af', '#172554'];
+      } else {
+        newColors = [...currentColors, Item.Clock];
+      }
       break;
     }
-    case 6: {
+    case Weekday.Saturday: {
+      if (level === 1) {
+        newColors = [
+          '#F3E5F5',
+          '#9575CD',
+          '#E1BEE7',
+          '#BA68C8',
+          '#AB47BC',
+          '#8E24AA',
+          '#6A1B9A',
+          '#4A148C',
+        ];
+      } else if (level === 2) {
+        newColors = [
+          ...currentColors,
+          '#AA00FF',
+          '#e9d5ff',
+          '#9333ea',
+          Item.Clock,
+        ];
+      } else if (level === 3) {
+        newColors = [...currentColors, '#E040FB', '#581c87', '#3b0764'];
+      } else if (level === 4) {
+        newColors = [
+          ...currentColors,
+          '#a855f7',
+          '#701a75',
+          '#f5d0fe',
+          Item.Clock,
+        ];
+      } else if (level === 5) {
+        newColors = [...currentColors, '#651FFF', '#673AB7', '#B388FF'];
+      } else {
+        newColors = [...currentColors, Item.Clock];
+      }
       break;
     }
   }
+  return newColors;
 };

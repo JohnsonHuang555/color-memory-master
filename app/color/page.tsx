@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import GameTemplate from '@/components/game-template';
 import { useGameStore } from '@/stores/game-store';
 import { GameStatus } from '@/types/GameStatus';
 import { GameTheme } from '@/types/GameTheme';
+import { Item } from '@/types/Item';
 
 export default function ColorPage() {
   const { createCardContents, cardContents, gameStatus } = useGameStore(
@@ -22,7 +24,18 @@ export default function ColorPage() {
 
   return (
     <div className="flex h-full w-[600px] flex-col items-center justify-center p-24 max-md:w-2/3 max-md:p-12 max-sm:w-full max-sm:p-6">
-      <GameTemplate gameTheme={GameTheme.Color} />
+      <GameTemplate
+        gameTheme={GameTheme.Color}
+        contentChildren={content => (
+          <motion.div
+            className="w-full flex-1 rounded-lg"
+            style={{ backgroundColor: content }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          />
+        )}
+      />
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -36,7 +49,17 @@ export default function ColorPage() {
               key={content}
               className="h-7 w-7 rounded-md border-2"
               style={{ backgroundColor: content }}
-            />
+            >
+              {content === Item.Clock && (
+                <Image
+                  src="/timer-add.png"
+                  alt="timer-add"
+                  width={100}
+                  height={100}
+                  priority
+                />
+              )}
+            </div>
           ))}
         </div>
       </motion.section>
