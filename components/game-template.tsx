@@ -20,6 +20,7 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const ref = useRef<any>();
   const {
+    matchCount,
     score,
     remainedTime,
     onUpdateRemainedTime,
@@ -27,6 +28,9 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
     onUpdateGameStatus,
     level,
   } = useGameStore(state => state);
+
+  // matchCount - 1 為 combo
+  const combo = matchCount - 1;
 
   // 分數動畫
   const scoreMotion = useMotionValue(0);
@@ -112,13 +116,23 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
           </div>
         </div>
       </div>
-      <div className="mb-8 w-full">
+      <div className="relative mb-10 w-full">
         <GamePlay
           minWidth={minWidth}
           gameTheme={gameTheme}
           contentChildren={contentChildren}
         />
-        {/* <div className="mt-4 text-center text-lg font-semibold">Combo</div> */}
+        <div className="absolute left-1/2 mt-1 -translate-x-1/2 text-center text-lg font-semibold text-red-700">
+          {combo > 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, scale: [1, 1.2, 1] }}
+              transition={{ duration: 0.5 }}
+            >
+              {combo} Combo
+            </motion.div>
+          ) : null}
+        </div>
       </div>
     </>
   );

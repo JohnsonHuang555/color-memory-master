@@ -21,6 +21,7 @@ type GamePlayProps = {
 
 const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
   const {
+    matchCount,
     cardContents,
     onUpdateScore,
     gameStatus,
@@ -28,6 +29,8 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
     createCardContents,
     onUpdateRemainedTime,
     onNextLevel,
+    onUpdateMatchCount,
+    onResetMatchCount,
   } = useGameStore(state => state);
 
   const [cards, setCards] = useState<CardContent[]>([]);
@@ -80,14 +83,27 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
     const match = newCards.find(c => c.isMatched);
     // 計算分數
     if (match) {
+      // 計算連續答對次數
+      onUpdateMatchCount();
       if (match.content === Item.Clock) {
         setTimeout(() => {
-          onUpdateRemainedTime(20);
+          onUpdateRemainedTime(25);
         }, 500);
       }
       setTimeout(() => {
-        onUpdateScore(MATCH_SCORE);
+        let calcScore;
+        if (matchCount === 0) {
+          calcScore = MATCH_SCORE;
+        } else {
+          calcScore = MATCH_SCORE + MATCH_SCORE * (matchCount - 1);
+        }
+        onUpdateScore(calcScore);
       }, 300);
+    } else {
+      // 重置連續答對次數
+      if (newCards.length % 2 === 0) {
+        onResetMatchCount();
+      }
     }
   };
 

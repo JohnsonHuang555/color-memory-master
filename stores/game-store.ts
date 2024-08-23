@@ -11,7 +11,7 @@ type GameState = {
   score: number;
   remainedTime: number;
   gameStatus: GameStatus;
-  combo: number;
+  matchCount: number;
 };
 
 type GameActions = {
@@ -21,6 +21,8 @@ type GameActions = {
   onUpdateGameStatus: (gameStatus: GameStatus) => void;
   createCardContents: (theme: GameTheme) => void; // 建立題目
   onNextLevel: () => void;
+  onUpdateMatchCount: () => void;
+  onResetMatchCount: () => void;
 };
 
 type GameStore = GameState & GameActions;
@@ -32,7 +34,7 @@ const defaultInitState: GameState = {
   score: 0,
   remainedTime: 100, // 預設 100秒
   gameStatus: GameStatus.Idle,
-  combo: 0,
+  matchCount: 1,
 };
 
 export const useGameStore = create<GameStore>()(set => ({
@@ -47,10 +49,13 @@ export const useGameStore = create<GameStore>()(set => ({
       switch (theme) {
         case GameTheme.Color:
           const allColors = createColorContents(state.level, state.allContents);
-          const randomContents = getRandomElementsFromArray(allColors, 8);
+          const randomContents = getRandomElementsFromArray(allColors, 2);
           // newContents = sortColorsByOriginalOrder(allColors, randomContents);
           return { cardContents: randomContents, allContents: allColors };
       }
     }),
   onNextLevel: () => set(state => ({ level: state.level + 1 })),
+  onUpdateMatchCount: () =>
+    set(state => ({ matchCount: state.matchCount + 1 })),
+  onResetMatchCount: () => set(() => ({ matchCount: 0 })),
 }));
