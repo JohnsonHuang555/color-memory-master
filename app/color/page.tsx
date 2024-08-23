@@ -28,7 +28,7 @@ export default function ColorPage() {
         gameTheme={GameTheme.Color}
         contentChildren={content => (
           <motion.div
-            className="h-full w-full"
+            className="h-full w-full rounded-lg"
             style={{ backgroundColor: content }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
