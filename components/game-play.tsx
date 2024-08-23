@@ -31,6 +31,7 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
     onNextLevel,
     onUpdateMatchCount,
     onResetMatchCount,
+    onChangeShowAddRemainedTimeText,
   } = useGameStore(state => state);
 
   const [cards, setCards] = useState<CardContent[]>([]);
@@ -86,9 +87,10 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
       // 計算連續答對次數
       onUpdateMatchCount();
       if (match.content === Item.Clock) {
+        onChangeShowAddRemainedTimeText(true);
         setTimeout(() => {
           onUpdateRemainedTime(25);
-        }, 500);
+        }, 1000);
       }
       setTimeout(() => {
         let calcScore;

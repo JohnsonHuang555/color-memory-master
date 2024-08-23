@@ -23,10 +23,12 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
     matchCount,
     score,
     remainedTime,
-    onUpdateRemainedTime,
     gameStatus,
-    onUpdateGameStatus,
     level,
+    showAddRemainedTimeText,
+    onUpdateGameStatus,
+    onUpdateRemainedTime,
+    onChangeShowAddRemainedTimeText,
   } = useGameStore(state => state);
 
   // matchCount - 1 為 combo
@@ -92,7 +94,8 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
         onClose={() => setShowGameOverModal(true)}
       />
       <div className="mb-6 flex w-full items-center" ref={ref}>
-        <div className="flex flex-1 items-center text-lg font-semibold">
+        <div className="relative flex flex-1 items-center text-lg font-semibold">
+          {/* <div className="absolute -top-6 text-sm">最佳分數: 123</div> */}
           <div className="mr-2">總分:</div>
           <motion.div>{roundedScore}</motion.div>
         </div>
@@ -108,10 +111,22 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
           <Image src="/timer.svg" alt="timer" width={24} height={24} priority />
           <div
             className={cn(
-              'ml-1 min-w-[30px] text-right text-lg font-semibold',
+              'relative ml-1 min-w-[30px] text-right text-lg font-semibold',
               remainedTime <= 10 && 'text-red-500',
             )}
           >
+            {showAddRemainedTimeText && (
+              <motion.div
+                animate={{ y: 30, opacity: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="absolute -top-6 right-0 text-base text-red-700"
+                onAnimationComplete={() =>
+                  onChangeShowAddRemainedTimeText(false)
+                }
+              >
+                +25
+              </motion.div>
+            )}
             <motion.div>{roundedRemainedTime}</motion.div>
           </div>
         </div>
