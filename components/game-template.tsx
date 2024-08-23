@@ -137,7 +137,7 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
           gameTheme={gameTheme}
           contentChildren={contentChildren}
         />
-        <div className="absolute left-1/2 mt-1 -translate-x-1/2 text-center text-lg font-semibold text-red-700">
+        <div className="absolute left-1/2 mt-2 -translate-x-1/2 text-center text-lg font-semibold text-red-700">
           {combo > 0 ? (
             <motion.div
               initial={{ opacity: 0 }}

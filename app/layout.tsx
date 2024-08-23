@@ -9,9 +9,9 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: '記憶迴圈',
+  title: '記憶極限',
   description:
-    '這是一款挑戰你的反應力及記憶力的翻牌配對遊戲，有各種有趣特別的主題可以選擇，一起與世界上的玩家比拼排名吧',
+    '這是一款挑戰記憶力與反應力的翻牌配對遊戲，各種有趣又好玩的主題等你來挑戰，在倒數計時結束前，完成所有的配對，不斷爭取高分，登上排行榜的頂端，與其他玩家一較高下！',
 };
 
 export default function RootLayout({

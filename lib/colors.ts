@@ -314,9 +314,16 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           '#1e293b',
           '#020617',
           Item.Clock,
+          Item.Combo,
         ];
       } else if (level === 3) {
-        newColors = [...currentColors, '#BDBDBD', '#94a3b8', '#27272a'];
+        newColors = [
+          ...currentColors,
+          '#BDBDBD',
+          '#94a3b8',
+          '#27272a',
+          Item.Combo,
+        ];
       } else if (level === 4) {
         newColors = [
           ...currentColors,
@@ -326,9 +333,15 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           Item.Clock,
         ];
       } else if (level === 5) {
-        newColors = [...currentColors, '#E0E0E0', '#e7e5e4', '#44403c'];
+        newColors = [
+          ...currentColors,
+          '#E0E0E0',
+          '#e7e5e4',
+          '#44403c',
+          Item.Combo,
+        ];
       } else {
-        newColors = [...currentColors, Item.Clock];
+        newColors = [...currentColors];
       }
       break;
     }
@@ -351,9 +364,16 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           '#ef4444',
           '#fda4af',
           Item.Clock,
+          Item.Combo,
         ];
       } else if (level === 3) {
-        newColors = [...currentColors, '#E57373', '#9f1239', '#f9a8d4'];
+        newColors = [
+          ...currentColors,
+          '#E57373',
+          '#9f1239',
+          '#f9a8d4',
+          Item.Combo,
+        ];
       } else if (level === 4) {
         newColors = [
           ...currentColors,
@@ -363,9 +383,15 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           Item.Clock,
         ];
       } else if (level === 5) {
-        newColors = [...currentColors, '#FF0000', '#fff1f2', '#fbcfe8'];
+        newColors = [
+          ...currentColors,
+          '#FF0000',
+          '#fff1f2',
+          '#fbcfe8',
+          Item.Combo,
+        ];
       } else {
-        newColors = [...currentColors, Item.Clock];
+        newColors = [...currentColors];
       }
       break;
     }
@@ -388,9 +414,16 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           '#fffbeb',
           '#fde047',
           Item.Clock,
+          Item.Combo,
         ];
       } else if (level === 3) {
-        newColors = [...currentColors, '#FFEB3B', '#FFFF8D', '#F4FF81'];
+        newColors = [
+          ...currentColors,
+          '#FFEB3B',
+          '#FFFF8D',
+          '#F4FF81',
+          Item.Combo,
+        ];
       } else if (level === 4) {
         newColors = [
           ...currentColors,
@@ -400,9 +433,15 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           Item.Clock,
         ];
       } else if (level === 5) {
-        newColors = [...currentColors, '#fef08a', '#827717', '#AEEA00'];
+        newColors = [
+          ...currentColors,
+          '#fef08a',
+          '#827717',
+          '#AEEA00',
+          Item.Combo,
+        ];
       } else {
-        newColors = [...currentColors, Item.Clock];
+        newColors = [...currentColors];
       }
       break;
     }
@@ -425,9 +464,16 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           '#451a03',
           '#ea580c',
           Item.Clock,
+          Item.Combo,
         ];
       } else if (level === 3) {
-        newColors = [...currentColors, '#f59e0b', '#7c2d12', '#ffedd5'];
+        newColors = [
+          ...currentColors,
+          '#f59e0b',
+          '#7c2d12',
+          '#ffedd5',
+          Item.Combo,
+        ];
       } else if (level === 4) {
         newColors = [
           ...currentColors,
@@ -437,9 +483,15 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           Item.Clock,
         ];
       } else if (level === 5) {
-        newColors = [...currentColors, '#92400e', '#A1887F', '#795548'];
+        newColors = [
+          ...currentColors,
+          '#92400e',
+          '#A1887F',
+          '#795548',
+          Item.Combo,
+        ];
       } else {
-        newColors = [...currentColors, Item.Clock];
+        newColors = [...currentColors];
       }
       break;
     }
@@ -476,7 +528,7 @@ export const createColorContents = (level: number, currentColors: string[]) => {
       } else if (level === 5) {
         newColors = [...currentColors, '#C0CA33', '#4d7c0f', '#76FF03'];
       } else {
-        newColors = [...currentColors, Item.Clock];
+        newColors = [...currentColors];
       }
       break;
     }
@@ -499,9 +551,16 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           '#0891b2',
           '#22d3ee',
           Item.Clock,
+          Item.Combo,
         ];
       } else if (level === 3) {
-        newColors = [...currentColors, '#cffafe', '#a5f3fc', '#164e63'];
+        newColors = [
+          ...currentColors,
+          '#cffafe',
+          '#a5f3fc',
+          '#164e63',
+          Item.Combo,
+        ];
       } else if (level === 4) {
         newColors = [
           ...currentColors,
@@ -511,9 +570,15 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           Item.Clock,
         ];
       } else if (level === 5) {
-        newColors = [...currentColors, '#01579B', '#1e40af', '#172554'];
+        newColors = [
+          ...currentColors,
+          '#01579B',
+          '#1e40af',
+          '#172554',
+          Item.Combo,
+        ];
       } else {
-        newColors = [...currentColors, Item.Clock];
+        newColors = [...currentColors];
       }
       break;
     }
@@ -536,9 +601,16 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           '#e9d5ff',
           '#9333ea',
           Item.Clock,
+          Item.Combo,
         ];
       } else if (level === 3) {
-        newColors = [...currentColors, '#E040FB', '#581c87', '#3b0764'];
+        newColors = [
+          ...currentColors,
+          '#E040FB',
+          '#581c87',
+          '#3b0764',
+          Item.Combo,
+        ];
       } else if (level === 4) {
         newColors = [
           ...currentColors,
@@ -548,9 +620,15 @@ export const createColorContents = (level: number, currentColors: string[]) => {
           Item.Clock,
         ];
       } else if (level === 5) {
-        newColors = [...currentColors, '#651FFF', '#673AB7', '#B388FF'];
+        newColors = [
+          ...currentColors,
+          '#651FFF',
+          '#673AB7',
+          '#B388FF',
+          Item.Combo,
+        ];
       } else {
-        newColors = [...currentColors, Item.Clock];
+        newColors = [...currentColors];
       }
       break;
     }

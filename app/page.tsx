@@ -21,7 +21,7 @@ export default function Home() {
           scale: 1,
         }}
       >
-        配對王
+        記憶極限
       </motion.h1>
       <motion.p
         initial={{
@@ -33,9 +33,13 @@ export default function Home() {
           scale: 1,
           transition: { delay: 0.1 },
         }}
-        className="mb-16 w-[450px] text-center max-sm:w-full"
+        className="mb-14 w-[450px] text-center max-sm:w-full"
       >
-        遊戲規則非常簡單，只要配對到相同的牌可獲得分數，當計時器歸零或完成所有關卡即遊戲結束
+        運用你的記憶力和快速反應，翻開卡片，找出一樣的圖案或顏色即可得分
+        <br />
+        <br />
+        每過一關就會提升難度，道具牌可以幫助你延長時間或是增加
+        Combo，當計時器歸零即遊戲結束
       </motion.p>
       <section className="mb-8 grid grid-cols-3 gap-8 max-sm:mb-10 max-sm:w-full max-sm:grid-cols-2 max-sm:gap-4">
         <motion.div
@@ -138,7 +142,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex justify-center gap-1 text-xs text-gray-500">
-          <span>#24點大師, #24點, Created by Johnson Huang</span>
+          <span>#, #, Created by Johnson Huang</span>
           <Image
             src="/smile-circle.svg"
             alt="smile-circle"

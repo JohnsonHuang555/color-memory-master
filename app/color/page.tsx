@@ -28,7 +28,7 @@ export default function ColorPage() {
         gameTheme={GameTheme.Color}
         contentChildren={content => (
           <motion.div
-            className="w-full flex-1 rounded-lg"
+            className="h-full w-full"
             style={{ backgroundColor: content }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -44,9 +44,9 @@ export default function ColorPage() {
       >
         <div className="mb-2 text-sm">顏色種類</div>
         <div className="flex flex-wrap justify-center gap-3">
-          {cardContents.map(content => (
+          {cardContents.map((content, index) => (
             <div
-              key={content}
+              key={`${content}-${index}`}
               className="h-7 w-7 rounded-md border-2"
               style={{ backgroundColor: content }}
             >
@@ -58,6 +58,9 @@ export default function ColorPage() {
                   height={100}
                   priority
                 />
+              )}
+              {content === Item.Combo && (
+                <div className="text-center font-semibold">C</div>
               )}
             </div>
           ))}

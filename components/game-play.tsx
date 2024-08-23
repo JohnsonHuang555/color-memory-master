@@ -92,6 +92,9 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
           onUpdateRemainedTime(25);
         }, 1000);
       }
+      if (match.content === Item.Combo) {
+        onUpdateMatchCount();
+      }
       setTimeout(() => {
         let calcScore;
         if (matchCount === 0) {
@@ -211,29 +214,36 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
         setTimeout(() => {
           onNextLevel();
           createCardContents(gameTheme);
-        }, 500);
+        }, 700);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards]);
 
   const renderChildren = (content: string) => {
-    if (content === Item.Clock) {
-      return (
-        <div className="flex w-full flex-1 items-center justify-center rounded-lg bg-stone-50">
-          <div className="w-1/2 items-center">
-            <Image
-              src="/timer-add.png"
-              alt="timer-add"
-              width={100}
-              height={100}
-              priority
-            />
+    switch (content) {
+      case Item.Clock:
+        return (
+          <div className="flex h-full w-full items-center justify-center bg-stone-50">
+            <div className="w-1/2">
+              <Image
+                src="/timer-add.png"
+                alt="timer-add"
+                width={100}
+                height={100}
+                priority
+              />
+            </div>
           </div>
-        </div>
-      );
-    } else {
-      return contentChildren(content);
+        );
+      case Item.Combo:
+        return (
+          <div className="flex h-full w-full items-center justify-center bg-stone-50 text-4xl font-semibold">
+            C
+          </div>
+        );
+      default:
+        return contentChildren(content);
     }
   };
 
@@ -289,7 +299,12 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
                         )}
                       >
                         {card.isFlip ? (
-                          <>{renderChildren(card.content)}</>
+                          <motion.div
+                            className="w-full flex-1 rounded-lg"
+                            initial={{ rotateY: 180 }}
+                          >
+                            {renderChildren(card.content)}
+                          </motion.div>
                         ) : (
                           <div className="flex w-1/2 items-center">
                             <Image

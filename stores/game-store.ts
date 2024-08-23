@@ -36,7 +36,7 @@ const defaultInitState: GameState = {
   score: 0,
   remainedTime: 100, // 預設 100秒
   gameStatus: GameStatus.Idle,
-  matchCount: 1,
+  matchCount: 0,
   showAddRemainedTimeText: false,
 };
 
