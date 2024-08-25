@@ -1,12 +1,19 @@
+'use client';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 import GamePlay from '@/components/game-play';
+import { addUserInLeaderboard, getUserInfo } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { useGameStore } from '@/stores/game-store';
 import { GameStatus } from '@/types/GameStatus';
 import { GameTheme } from '@/types/GameTheme';
+import CreateUsernameModal from './modals/create-username-modal';
+import EditUsernameModal from './modals/edit-username-modal';
 import GameOverModal from './modals/game-over-modal';
+import LeaderboardModal from './modals/leaderboard-modal';
+import RulesModal from './modals/rules-modal';
 
 let timerId: any = null;
 
@@ -18,8 +25,14 @@ type GameTemplateProps = {
 const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
   const [minWidth, setMinWidth] = useState<number>();
   const [showGameOverModal, setShowGameOverModal] = useState(false);
+  const [showCreateUsernameModal, setShowCreateUsernameModal] = useState(false);
+  const [showEditUsernameModal, setShowEditUsernameModal] = useState(false);
+  const [showLeaderboardModal, setShowLeaderboardModal] = useState(false);
+  const [showRulesModal, setShowRuleModal] = useState(false);
+
   const ref = useRef<any>();
   const {
+    userInfo,
     matchCount,
     score,
     remainedTime,
@@ -29,6 +42,7 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
     onUpdateGameStatus,
     onUpdateRemainedTime,
     onChangeShowAddRemainedTimeText,
+    setUserInfo,
   } = useGameStore(state => state);
 
   // matchCount - 1 為 combo
@@ -50,16 +64,33 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
     timerId = id;
   }, [onUpdateRemainedTime]);
 
+  const getUser = useCallback(
+    async (userId: string) => {
+      const data = await getUserInfo(userId, GameTheme.Color);
+      if (data) {
+        setUserInfo(data);
+      }
+    },
+    [setUserInfo],
+  );
+
   useEffect(() => {
     switch (gameStatus) {
       case GameStatus.Playing:
         startTimer();
         break;
       case GameStatus.GameOver:
+        // 送成績到後端
+        if (userInfo) {
+          // 新紀錄
+          if (score > userInfo.bestScore) {
+            addUserInLeaderboard(userInfo.id, score, level, gameTheme);
+          }
+        }
         clearInterval(timerId);
         break;
     }
-  }, [gameStatus, startTimer]);
+  }, [gameStatus, gameTheme, level, score, startTimer, userInfo]);
 
   useEffect(() => {
     if (remainedTime < 1) {
@@ -69,6 +100,16 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
       }, 1000);
     }
   }, [onUpdateGameStatus, remainedTime]);
+
+  // useEffect(() => {
+  //   // 每三關加 25秒
+  //   if (level > 1 && level % 3 === 1) {
+  //     onChangeShowAddRemainedTimeText(true);
+  //     setTimeout(() => {
+  //       onUpdateRemainedTime(25);
+  //     }, 1000);
+  //   }
+  // }, [level, onChangeShowAddRemainedTimeText, onUpdateRemainedTime]);
 
   useEffect(() => {
     const scoreControls = animate(scoreMotion, score, {
@@ -85,17 +126,85 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
 
   useEffect(() => {
     setMinWidth(ref.current.clientWidth);
-  }, []);
+    const userId = localStorage.getItem('user-id');
+    if (userId) {
+      getUser(userId);
+    } else {
+      setShowCreateUsernameModal(true);
+    }
+  }, [getUser]);
 
   return (
-    <>
+    <div className="relative w-full">
       <GameOverModal
         isOpen={showGameOverModal}
-        onClose={() => setShowGameOverModal(true)}
+        onClose={() => setShowGameOverModal(false)}
       />
+      <CreateUsernameModal
+        gameTheme={gameTheme}
+        isOpen={showCreateUsernameModal}
+        onClose={() => setShowCreateUsernameModal(false)}
+      />
+      <EditUsernameModal
+        isOpen={showEditUsernameModal}
+        onClose={() => setShowEditUsernameModal(false)}
+      />
+      <LeaderboardModal
+        gameTheme={gameTheme}
+        isOpen={showLeaderboardModal}
+        onChange={setShowLeaderboardModal}
+      />
+      <RulesModal isOpen={showRulesModal} onChange={setShowRuleModal} />
+      {userInfo && (
+        <div className="absolute -top-20 flex w-full justify-between">
+          <div className="flex items-center">
+            <div className="mr-1 text-xl">Hi, {userInfo?.username}</div>
+            <div
+              className="h-6 w-6 cursor-pointer"
+              onClick={() => setShowEditUsernameModal(true)}
+            >
+              <Image
+                src="/edit.png"
+                alt="edit"
+                width={100}
+                height={100}
+                priority
+              />
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <div
+              className="h-6 w-6 cursor-pointer"
+              onClick={() => setShowRuleModal(true)}
+            >
+              <Image
+                src="/rules.png"
+                alt="rules"
+                width={100}
+                height={100}
+                priority
+              />
+            </div>
+            <div
+              className="h-6 w-6 cursor-pointer"
+              onClick={() => setShowLeaderboardModal(true)}
+            >
+              <Image
+                src="/leaderboard.png"
+                alt="leaderboard"
+                width={100}
+                height={100}
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mb-6 flex w-full items-center" ref={ref}>
         <div className="relative flex flex-1 items-center text-lg font-semibold">
-          {/* <div className="absolute -top-6 text-sm">最佳分數: 123</div> */}
+          {/* <div className="absolute -top-6 text-sm">
+            最佳分數: {userInfo?.bestScore}
+          </div> */}
           <div className="mr-2">總分:</div>
           <motion.div>{roundedScore}</motion.div>
         </div>
@@ -108,26 +217,34 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
           Level {level}
         </motion.div>
         <div className="flex flex-1 items-center justify-end">
-          <Image src="/timer.svg" alt="timer" width={24} height={24} priority />
-          <div
-            className={cn(
-              'relative ml-1 min-w-[30px] text-right text-lg font-semibold',
-              remainedTime <= 10 && 'text-red-500',
-            )}
-          >
-            {showAddRemainedTimeText && (
-              <motion.div
-                animate={{ y: 30, opacity: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="absolute -top-6 right-0 text-base text-red-700"
-                onAnimationComplete={() =>
-                  onChangeShowAddRemainedTimeText(false)
-                }
-              >
-                +25
-              </motion.div>
-            )}
-            <motion.div>{roundedRemainedTime}</motion.div>
+          <div className="flex">
+            <Image
+              src="/timer.svg"
+              alt="timer"
+              width={24}
+              height={24}
+              priority
+            />
+            <div
+              className={cn(
+                'relative ml-1 min-w-[30px] text-right text-lg font-semibold',
+                remainedTime <= 10 && 'text-red-500',
+              )}
+            >
+              {showAddRemainedTimeText && (
+                <motion.div
+                  animate={{ y: 30, opacity: 0 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  className="absolute -top-6 right-0 text-base text-red-700"
+                  onAnimationComplete={() =>
+                    onChangeShowAddRemainedTimeText(false)
+                  }
+                >
+                  +25
+                </motion.div>
+              )}
+              <motion.div>{roundedRemainedTime}</motion.div>
+            </div>
           </div>
         </div>
       </div>
@@ -149,7 +266,7 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
           ) : null}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

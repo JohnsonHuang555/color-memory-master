@@ -1,12 +1,16 @@
 import { create } from 'zustand';
 import { createColorContents } from '@/lib/colors';
-import { getRandomElementsFromArray } from '@/lib/utils';
+import {
+  getRandomElementsFromArray,
+  sortColorsByOriginalOrder,
+} from '@/lib/utils';
 import { GameStatus } from '@/types/GameStatus';
 import { GameTheme } from '@/types/GameTheme';
+import { UserInfo } from '@/types/UserInfo';
 
 type GameState = {
+  userInfo?: UserInfo;
   level: number;
-  allContents: string[]; // 總題庫
   cardContents: string[];
   score: number;
   remainedTime: number;
@@ -17,6 +21,7 @@ type GameState = {
 
 type GameActions = {
   onReset: () => void;
+  setUserInfo: (value: UserInfo) => void;
   onUpdateScore: (value: number) => void;
   onUpdateRemainedTime: (value: number) => void;
   onUpdateGameStatus: (gameStatus: GameStatus) => void;
@@ -31,7 +36,6 @@ type GameStore = GameState & GameActions;
 
 const defaultInitState: GameState = {
   level: 1,
-  allContents: [],
   cardContents: [],
   score: 0,
   remainedTime: 100, // 預設 100秒
@@ -43,6 +47,7 @@ const defaultInitState: GameState = {
 export const useGameStore = create<GameStore>()(set => ({
   ...defaultInitState,
   onReset: () => set(() => defaultInitState),
+  setUserInfo: value => set(() => ({ userInfo: value })),
   onUpdateScore: value => set(state => ({ score: state.score + value })),
   onUpdateRemainedTime: value =>
     set(state => ({ remainedTime: state.remainedTime + value })),
@@ -51,10 +56,13 @@ export const useGameStore = create<GameStore>()(set => ({
     set(state => {
       switch (theme) {
         case GameTheme.Color:
-          const allColors = createColorContents(state.level, state.allContents);
+          const allColors = createColorContents(state.level);
           const randomContents = getRandomElementsFromArray(allColors, 8);
-          // newContents = sortColorsByOriginalOrder(allColors, randomContents);
-          return { cardContents: randomContents, allContents: allColors };
+          const sortedContents = sortColorsByOriginalOrder(
+            allColors,
+            randomContents,
+          );
+          return { cardContents: sortedContents };
       }
     }),
   onNextLevel: () => set(state => ({ level: state.level + 1 })),

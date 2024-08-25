@@ -27,11 +27,11 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
     gameStatus,
     onUpdateGameStatus,
     createCardContents,
-    onUpdateRemainedTime,
     onNextLevel,
     onUpdateMatchCount,
     onResetMatchCount,
     onChangeShowAddRemainedTimeText,
+    onUpdateRemainedTime,
   } = useGameStore(state => state);
 
   const [cards, setCards] = useState<CardContent[]>([]);
@@ -224,7 +224,7 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
     switch (content) {
       case Item.Clock:
         return (
-          <div className="flex h-full w-full items-center justify-center bg-stone-50">
+          <div className="flex h-full w-full items-center justify-center rounded-lg bg-stone-50">
             <div className="w-1/2">
               <Image
                 src="/timer-add.png"
@@ -238,7 +238,7 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
         );
       case Item.Combo:
         return (
-          <div className="flex h-full w-full items-center justify-center bg-stone-50 text-4xl font-semibold">
+          <div className="flex h-full w-full items-center justify-center rounded-lg bg-stone-50 text-4xl font-semibold">
             C
           </div>
         );

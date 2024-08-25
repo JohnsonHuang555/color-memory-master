@@ -47,17 +47,19 @@ export default function ColorPage() {
           {cardContents.map((content, index) => (
             <div
               key={`${content}-${index}`}
-              className="h-7 w-7 rounded-md border-2"
+              className="flex h-7 w-7 items-center justify-center rounded-md border-2"
               style={{ backgroundColor: content }}
             >
               {content === Item.Clock && (
-                <Image
-                  src="/timer-add.png"
-                  alt="timer-add"
-                  width={100}
-                  height={100}
-                  priority
-                />
+                <div className="w-2/3">
+                  <Image
+                    src="/timer-add.png"
+                    alt="timer-add"
+                    width={100}
+                    height={100}
+                    priority
+                  />
+                </div>
               )}
               {content === Item.Combo && (
                 <div className="text-center font-semibold">C</div>
