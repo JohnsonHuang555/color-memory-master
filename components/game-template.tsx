@@ -69,6 +69,8 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
       const data = await getUserInfo(userId, GameTheme.Color);
       if (data) {
         setUserInfo(data);
+      } else {
+        setShowCreateUsernameModal(true);
       }
     },
     [setUserInfo],
