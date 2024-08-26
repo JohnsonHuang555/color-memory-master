@@ -101,15 +101,15 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
     }
   }, [onUpdateGameStatus, remainedTime]);
 
-  // useEffect(() => {
-  //   // 每三關加 25秒
-  //   if (level > 1 && level % 3 === 1) {
-  //     onChangeShowAddRemainedTimeText(true);
-  //     setTimeout(() => {
-  //       onUpdateRemainedTime(25);
-  //     }, 1000);
-  //   }
-  // }, [level, onChangeShowAddRemainedTimeText, onUpdateRemainedTime]);
+  useEffect(() => {
+    // 每三關加 25秒
+    if (level > 1 && level % 3 === 1) {
+      onChangeShowAddRemainedTimeText(true);
+      setTimeout(() => {
+        onUpdateRemainedTime(25);
+      }, 1000);
+    }
+  }, [level, onChangeShowAddRemainedTimeText, onUpdateRemainedTime]);
 
   useEffect(() => {
     const scoreControls = animate(scoreMotion, score, {

@@ -18,6 +18,7 @@ type GamePlayProps = {
   gameTheme: GameTheme;
   contentChildren: (v: string) => React.ReactNode;
 };
+let lastClickTime = 0;
 
 const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
   const {
@@ -38,6 +39,7 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
   const [currentSelectedCards, setCurrentSelectedCards] = useState<
     CardContent[]
   >([]);
+  const [disabledClick, setDisabledClick] = useState(false);
 
   const isGameOver = gameStatus === GameStatus.GameOver;
 
@@ -220,6 +222,24 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards]);
 
+  useEffect(() => {
+    const detectDevTools = () => {
+      const threshold = 160;
+      setInterval(() => {
+        if (
+          window.outerWidth - window.innerWidth > threshold ||
+          window.outerHeight - window.innerHeight > threshold
+        ) {
+          alert('增測到 devTool 請關閉並重新整理網頁');
+          // 可以暫停遊戲或鎖定某些功能
+          setDisabledClick(true);
+        }
+      }, 100);
+    };
+
+    detectDevTools();
+  }, []);
+
   const renderChildren = (content: string) => {
     switch (content) {
       case Item.Clock:
@@ -271,7 +291,16 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
                   animate={{ rotateY: card.isFlip ? 180 : 0 }}
                   onAnimationComplete={() => updateCardStatus(card.id)}
                   onClick={() => {
-                    if (isGameOver || card.isFlip) return;
+                    if (isGameOver || card.isFlip || disabledClick) return;
+
+                    const now = Date.now();
+                    if (now - lastClickTime < 100) {
+                      alert('點擊行為異常，請重新整理網頁');
+                      setDisabledClick(true);
+                      return;
+                    }
+                    lastClickTime = now;
+
                     // 翻牌
                     onFlip(card.id);
                     checkIsMatch(card);
