@@ -92,7 +92,7 @@ export default function Home() {
                 height={48}
                 priority
               />
-              <div className="mt-2 text-lg font-semibold">中文字</div>
+              <div className="mt-2 text-lg font-semibold">中文字(即將推出)</div>
             </Card>
           </motion.div>
         </motion.div>
@@ -119,7 +119,7 @@ export default function Home() {
                 height={48}
                 priority
               />
-              <div className="mt-2 text-lg font-semibold">英文字</div>
+              <div className="mt-2 text-lg font-semibold">英文字(即將推出)</div>
             </Card>
           </motion.div>
         </motion.div>
