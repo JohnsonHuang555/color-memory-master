@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import disableDevtool from 'disable-devtool';
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 import GamePlay from '@/components/game-play';
 import { addUserInLeaderboard, getUserInfo } from '@/lib/firebase';
@@ -22,6 +23,8 @@ type GameTemplateProps = {
   gameTheme: GameTheme;
   contentChildren: (v: string) => React.ReactNode;
 };
+
+disableDevtool();
 
 const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
   const router = useRouter();

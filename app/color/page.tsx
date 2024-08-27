@@ -1,16 +1,18 @@
 'use client';
 
 import { useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import disableDevtool from 'disable-devtool';
 import { motion } from 'framer-motion';
-import GameTemplate from '@/components/game-template';
 import { useGameStore } from '@/stores/game-store';
 import { GameStatus } from '@/types/GameStatus';
 import { GameTheme } from '@/types/GameTheme';
 import { Item } from '@/types/Item';
 
-disableDevtool();
+const DynamicGameTemplate = dynamic(
+  () => import('@/components/game-template'),
+  { ssr: false },
+);
 
 export default function ColorPage() {
   const { createCardContents, cardContents, gameStatus } = useGameStore(
@@ -27,7 +29,7 @@ export default function ColorPage() {
 
   return (
     <div className="flex h-full w-[600px] flex-col items-center justify-center p-24 max-md:w-2/3 max-md:p-12 max-sm:w-full max-sm:p-6 2xl:w-[1000px]">
-      <GameTemplate
+      <DynamicGameTemplate
         gameTheme={GameTheme.Color}
         contentChildren={content => (
           <motion.div
