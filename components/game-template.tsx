@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 import GamePlay from '@/components/game-play';
 import { addUserInLeaderboard, getUserInfo } from '@/lib/firebase';
@@ -23,6 +24,7 @@ type GameTemplateProps = {
 };
 
 const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
+  const router = useRouter();
   const [minWidth, setMinWidth] = useState<number>();
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const [showCreateUsernameModal, setShowCreateUsernameModal] = useState(false);
@@ -175,6 +177,18 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
             </div>
           </div>
           <div className="flex gap-4">
+            <div
+              className="h-6 w-6 cursor-pointer"
+              onClick={() => router.push('/')}
+            >
+              <Image
+                src="/home2.png"
+                alt="home2"
+                width={100}
+                height={100}
+                priority
+              />
+            </div>
             <div
               className="h-6 w-6 cursor-pointer"
               onClick={() => setShowRuleModal(true)}
