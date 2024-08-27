@@ -127,19 +127,7 @@ export default function Home() {
       <footer className="fixed bottom-4 left-1/2 w-full -translate-x-1/2">
         <div className="mb-1 flex items-center justify-center text-xs text-gray-500">
           <div>此網站支援度電腦平板手機瀏覽器</div>
-          <div className="mx-2 text-xs text-gray-500">v1.0.2</div>
-          <Link
-            href="https://github.com/JohnsonHuang555/color-memory-master"
-            target="_blank"
-          >
-            <Image
-              src="/github.svg"
-              alt="github"
-              width={14}
-              height={14}
-              priority
-            />
-          </Link>
+          <div className="mx-2 text-xs text-gray-500">v1.0.3</div>
         </div>
         <div className="flex justify-center gap-1 text-xs text-gray-500">
           <span>#記憶極限, #記憶配對, #記憶訓練, Created by Johnson Huang</span>
