@@ -222,23 +222,23 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cards]);
 
-  useEffect(() => {
-    const detectDevTools = () => {
-      const threshold = 160;
-      setInterval(() => {
-        if (
-          window.outerWidth - window.innerWidth > threshold ||
-          window.outerHeight - window.innerHeight > threshold
-        ) {
-          alert('增測到 devTool 請關閉並重新整理網頁');
-          // 可以暫停遊戲或鎖定某些功能
-          setDisabledClick(true);
-        }
-      }, 100);
-    };
+  // useEffect(() => {
+  //   const detectDevTools = () => {
+  //     const threshold = 160;
+  //     setInterval(() => {
+  //       if (
+  //         window.outerWidth - window.innerWidth > threshold ||
+  //         window.outerHeight - window.innerHeight > threshold
+  //       ) {
+  //         alert('增測到 devTool 請關閉並重新整理網頁');
+  //         // 可以暫停遊戲或鎖定某些功能
+  //         setDisabledClick(true);
+  //       }
+  //     }, 100);
+  //   };
 
-    detectDevTools();
-  }, []);
+  //   detectDevTools();
+  // }, []);
 
   const renderChildren = (content: string) => {
     switch (content) {
