@@ -98,37 +98,54 @@ const LeaderboardModal = ({
           <DialogTitle>TOP 50</DialogTitle>
           <DialogDescription />
         </DialogHeader>
-        <div className="flex max-h-[50vh] flex-col overflow-auto">
-          {leaderboardData.map((data, index) => (
-            <div key={index} className="flex">
-              <div className="mr-4">{renderBoard(index)}</div>
-              <div
-                className={cn(
-                  'grow',
-                  data.id === userInfo?.id && 'font-semibold text-red-700',
-                )}
-              >
-                {data.username}
-              </div>
-              <div
-                className={cn(
-                  data.id === userInfo?.id && 'font-semibold text-red-700',
-                )}
-              >
-                {data.score}
-              </div>
-            </div>
-          ))}
-        </div>
-        <hr />
-        <div className="flex items-center">
-          <div className="mr-4">
-            <div className="w-6 text-center text-lg font-semibold">
-              {myRank}
-            </div>
+        <div className="flex flex-col">
+          <div className="grid grid-cols-[40px_1fr_30px_120px]">
+            <div></div>
+            <div>玩家</div>
+            <div>Level</div>
+            <div className="text-right">分數</div>
           </div>
-          <div className="grow">我的分數</div>
-          <div className="font-semibold">{userInfo?.bestScore}</div>
+          <hr className="my-2" />
+          <div className="flex max-h-[50vh] flex-col overflow-auto">
+            {leaderboardData.map((data, index) => (
+              <div key={index} className="grid grid-cols-[40px_1fr_30px_120px]">
+                <div className="mr-4">{renderBoard(index)}</div>
+                <div
+                  className={cn(
+                    data.id === userInfo?.id && 'font-semibold text-red-700',
+                  )}
+                >
+                  {data.username}
+                </div>
+                <div
+                  className={cn(
+                    'text-left',
+                    data.id === userInfo?.id && 'font-semibold text-red-700',
+                  )}
+                >
+                  {data.level}
+                </div>
+                <div
+                  className={cn(
+                    'text-right',
+                    data.id === userInfo?.id && 'font-semibold text-red-700',
+                  )}
+                >
+                  {data.score}
+                </div>
+              </div>
+            ))}
+          </div>
+          <hr />
+          <div className="flex items-center">
+            <div className="mr-4">
+              <div className="w-6 text-center text-lg font-semibold">
+                {myRank}
+              </div>
+            </div>
+            <div className="grow">我的分數</div>
+            <div className="font-semibold">{userInfo?.bestScore}</div>
+          </div>
         </div>
         <DialogFooter>
           <Button type="submit" onClick={() => onChange(false)}>

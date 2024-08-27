@@ -116,6 +116,7 @@ export const getLeaderboard = async (theme: GameTheme) => {
         id: doc.id,
         username: data.username,
         score: data[theme].score,
+        level: data[theme].level,
       };
       leaderboard.push(board);
     }
