@@ -93,7 +93,7 @@ const LeaderboardModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent className="w-[400px] rounded-md max-sm:w-3/4">
+      <DialogContent className="max-sm:w-6/7 w-[400px] rounded-md">
         <DialogHeader>
           <DialogTitle>TOP 50</DialogTitle>
           <DialogDescription />
