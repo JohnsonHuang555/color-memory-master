@@ -2,12 +2,15 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
+import disableDevtool from 'disable-devtool';
 import { motion } from 'framer-motion';
 import GameTemplate from '@/components/game-template';
 import { useGameStore } from '@/stores/game-store';
 import { GameStatus } from '@/types/GameStatus';
 import { GameTheme } from '@/types/GameTheme';
 import { Item } from '@/types/Item';
+
+disableDevtool();
 
 export default function ColorPage() {
   const { createCardContents, cardContents, gameStatus } = useGameStore(
