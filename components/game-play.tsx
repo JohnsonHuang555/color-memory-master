@@ -272,11 +272,11 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
                   initial={{ rotateY: 0 }}
                   animate={{ rotateY: card.isFlip ? 180 : 0 }}
                   onAnimationComplete={() => updateCardStatus(card.id)}
-                  onClick={() => {
+                  onClick={e => {
                     if (isGameOver || card.isFlip || disabledClick) return;
 
                     const now = Date.now();
-                    if (now - lastClickTime < 100) {
+                    if (!e.isTrusted || now - lastClickTime < 100) {
                       alert('點擊行為異常，請重新整理網頁');
                       setDisabledClick(true);
                       return;

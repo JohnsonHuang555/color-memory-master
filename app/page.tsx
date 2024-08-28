@@ -58,14 +58,18 @@ export default function Home() {
               onClick={() => (window.location.href = '/color')}
               className="flex cursor-pointer flex-col items-center justify-center border-2 p-6 max-sm:p-4"
             >
-              <Image
-                src="/palette.png"
-                alt="colors"
-                width={48}
-                height={48}
-                priority
-              />
-              <div className="mt-2 text-lg font-semibold">顏色</div>
+              <div className="h-12 w-12">
+                <Image
+                  src="/palette.png"
+                  alt="colors"
+                  width={100}
+                  height={100}
+                  priority
+                />
+              </div>
+              <div className="mt-2 text-lg font-semibold max-sm:text-base">
+                顏色
+              </div>
             </Card>
           </motion.div>
         </motion.div>
@@ -85,14 +89,18 @@ export default function Home() {
               onClick={() => {}}
               className="flex cursor-not-allowed flex-col items-center justify-center border-2 bg-gray-300 p-6 text-gray-500 max-sm:p-4"
             >
-              <Image
-                src="/chinese.png"
-                alt="chinese-word"
-                width={48}
-                height={48}
-                priority
-              />
-              <div className="mt-2 text-lg font-semibold">中文字(即將推出)</div>
+              <div className="h-12 w-12">
+                <Image
+                  src="/chinese.png"
+                  alt="chinese-word"
+                  width={100}
+                  height={100}
+                  priority
+                />
+              </div>
+              <div className="mt-2 text-lg font-semibold max-sm:text-base">
+                中文字(即將推出)
+              </div>
             </Card>
           </motion.div>
         </motion.div>
@@ -112,14 +120,18 @@ export default function Home() {
               onClick={() => {}}
               className="flex cursor-not-allowed flex-col items-center justify-center border-2 bg-gray-300 p-6 text-gray-500 max-sm:p-4"
             >
-              <Image
-                src="/english.png"
-                alt="english-word"
-                width={48}
-                height={48}
-                priority
-              />
-              <div className="mt-2 text-lg font-semibold">英文字(即將推出)</div>
+              <div className="h-12 w-12">
+                <Image
+                  src="/english.png"
+                  alt="english-word"
+                  width={100}
+                  height={100}
+                  priority
+                />
+              </div>
+              <div className="mt-2 text-lg font-semibold max-sm:text-base">
+                英文字(即將推出)
+              </div>
             </Card>
           </motion.div>
         </motion.div>
