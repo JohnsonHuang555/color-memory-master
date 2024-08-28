@@ -3,6 +3,7 @@
 // Import the functions you need from the SDKs you need
 // import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import {
   addDoc,
   collection,
@@ -13,6 +14,7 @@ import {
   limit,
   orderBy,
   query,
+  setDoc,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -39,6 +41,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 const db = getFirestore(app);
+export const firebaseAuth = getAuth(app);
 
 export const getUserInfo = async (
   id: string,
@@ -59,18 +62,36 @@ export const getUserInfo = async (
   }
 };
 
-export const createUser = async (username: string, theme: GameTheme) => {
+export const createUser = async (
+  username: string,
+  theme: GameTheme,
+  id?: string,
+) => {
   try {
     // 建立玩家資料
-    const res = await addDoc(collection(db, 'players'), {
-      username: username,
+    const defaultData = {
+      username,
       color: {
         level: 1,
         score: 0,
       },
-    });
-    const userData = await getUserInfo(res.id, theme);
-    return userData;
+    };
+    // 有 id 代表第三方登入
+    if (id) {
+      const userData = await getUserInfo(id, theme);
+      if (userData) {
+        return userData;
+      } else {
+        await setDoc(doc(db, 'players', id), defaultData);
+        const newData = await getUserInfo(id, theme);
+        return newData;
+      }
+    } else {
+      // 訪客登入
+      const res = await addDoc(collection(db, 'players'), defaultData);
+      const userData = await getUserInfo(res.id, theme);
+      return userData;
+    }
   } catch (e) {
     console.error('Error adding document: ', e);
     return '';

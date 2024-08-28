@@ -1,6 +1,9 @@
 import { Inter as FontSans } from 'next/font/google';
+import { cookies } from 'next/headers';
 import type { Metadata, Viewport } from 'next';
+import { SESSION_COOKIE_NAME } from '@/lib/auth';
 import { cn } from '@/lib/utils';
+import { AuthProvider } from '@/providers/auth-provider';
 import './globals.css';
 
 const fontSans = FontSans({
@@ -45,6 +48,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = cookies().get(SESSION_COOKIE_NAME)?.value || null;
   return (
     <html lang="zh">
       <body
@@ -61,7 +65,7 @@ export default function RootLayout({
           }}
         />
         <main className="flex h-full items-center justify-center">
-          {children}
+          <AuthProvider session={session}>{children}</AuthProvider>
         </main>
       </body>
     </html>

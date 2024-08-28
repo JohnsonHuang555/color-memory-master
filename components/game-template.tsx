@@ -5,7 +5,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import disableDevtool from 'disable-devtool';
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
+import { removeSession } from '@/actions/auth-action';
 import GamePlay from '@/components/game-play';
+import { signOutWithGoogle } from '@/lib/auth';
 import { addUserInLeaderboard, getUserInfo } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { useGameStore } from '@/stores/game-store';
@@ -80,6 +82,13 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
     },
     [setUserInfo],
   );
+
+  const handleSignOut = async () => {
+    await signOutWithGoogle();
+    await removeSession(`/${gameTheme}`);
+    localStorage.removeItem('user-id');
+    window.location.reload();
+  };
 
   useEffect(() => {
     switch (gameStatus) {
@@ -163,7 +172,7 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
       />
       <RulesModal isOpen={showRulesModal} onChange={setShowRuleModal} />
       {userInfo && (
-        <div className="absolute -top-20 flex w-full justify-between">
+        <div className="absolute -top-20 flex w-full items-center justify-between">
           <div className="flex items-center">
             <div className="mr-1 text-xl">Hi, {userInfo?.username}</div>
             <div
@@ -180,6 +189,15 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
             </div>
           </div>
           <div className="flex gap-4">
+            <div className="h-6 w-6 cursor-pointer" onClick={handleSignOut}>
+              <Image
+                src="/logout.png"
+                alt="logout"
+                width={100}
+                height={100}
+                priority
+              />
+            </div>
             <div
               className="h-6 w-6 cursor-pointer"
               onClick={() => router.push('/')}
