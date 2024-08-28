@@ -84,7 +84,7 @@ const EnterUsernameModal = ({
           </AlertDialogFooter>
           <hr className="my-2" />
           <Card
-            className="flex cursor-pointer items-center justify-center p-2"
+            className="flex h-10 cursor-pointer items-center justify-center p-2"
             onClick={handleSignIn}
           >
             <div className="ml-1 mr-2 h-4 w-4">

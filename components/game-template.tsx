@@ -174,7 +174,9 @@ const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
       {userInfo && (
         <div className="absolute -top-20 flex w-full items-center justify-between">
           <div className="flex items-center">
-            <div className="mr-1 text-xl">Hi, {userInfo?.username}</div>
+            <div className="mr-1 text-xl max-sm:text-lg">
+              {userInfo?.username}
+            </div>
             <div
               className="h-6 w-6 cursor-pointer"
               onClick={() => setShowEditUsernameModal(true)}
