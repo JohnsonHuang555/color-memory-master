@@ -26,7 +26,7 @@ type GameTemplateProps = {
   contentChildren: (v: string) => React.ReactNode;
 };
 
-// disableDevtool();
+disableDevtool();
 
 const GameTemplate = ({ gameTheme, contentChildren }: GameTemplateProps) => {
   const router = useRouter();
