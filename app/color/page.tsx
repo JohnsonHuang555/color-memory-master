@@ -73,6 +73,9 @@ export default function ColorPage() {
           ))}
         </div>
       </motion.section>
+      <div className="fixed bottom-2 text-red-700">
+        由於計分系統有問題，修正後排行榜將會清空重新計分
+      </div>
     </div>
   );
 }
