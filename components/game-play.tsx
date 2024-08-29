@@ -18,7 +18,6 @@ type GamePlayProps = {
   gameTheme: GameTheme;
   contentChildren: (v: string) => React.ReactNode;
 };
-let lastClickTime = 0;
 
 const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
   const {
@@ -97,15 +96,6 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
       if (match.content === Item.Combo) {
         onUpdateMatchCount();
       }
-      setTimeout(() => {
-        let calcScore;
-        if (matchCount === 0) {
-          calcScore = MATCH_SCORE;
-        } else {
-          calcScore = MATCH_SCORE + MATCH_SCORE * (matchCount - 1);
-        }
-        onUpdateScore(calcScore);
-      }, 300);
     } else {
       // 重置連續答對次數
       if (newCards.length % 2 === 0) {
@@ -113,6 +103,20 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (matchCount !== 0) {
+      setTimeout(() => {
+        if (matchCount === 1) {
+          const calcScore = MATCH_SCORE;
+          onUpdateScore(calcScore);
+        } else if (matchCount > 1) {
+          const calcScore = MATCH_SCORE + MATCH_SCORE * (matchCount - 1);
+          onUpdateScore(calcScore);
+        }
+      }, 300);
+    }
+  }, [matchCount, onUpdateScore]);
 
   // 翻牌
   const onFlip = (id: string) => {
@@ -275,13 +279,11 @@ const GamePlay = ({ minWidth, gameTheme, contentChildren }: GamePlayProps) => {
                   onClick={e => {
                     if (isGameOver || card.isFlip || disabledClick) return;
 
-                    const now = Date.now();
-                    if (!e.isTrusted || now - lastClickTime < 100) {
+                    if (!e.isTrusted) {
                       alert('點擊行為異常，請重新整理網頁');
                       setDisabledClick(true);
                       return;
                     }
-                    lastClickTime = now;
 
                     // 翻牌
                     onFlip(card.id);

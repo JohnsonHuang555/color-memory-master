@@ -28,7 +28,7 @@ const RulesModal = ({ isOpen, onChange }: RulesModalProps) => {
           <li>當倒數計時結束即遊戲結束並結算分數</li>
           <li>每過三關會加時 25秒</li>
           <li>道具時鐘: 加時 25秒</li>
-          <li>道具 C: 為增加 1 Combo</li>
+          <li>道具 C: 增加 1 Combo</li>
         </ol>
         <DialogFooter>
           <Button type="submit" onClick={() => onChange(false)}>

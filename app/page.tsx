@@ -35,10 +35,10 @@ export default function Home() {
         }}
         className="mb-14 w-[450px] text-center max-sm:w-full"
       >
-        運用你的記憶力和快速反應，翻開卡片，找出一樣的圖案或顏色即可得分
+        運用你的記憶力與反應力，翻開卡片，找出一樣的圖案即可得分，有別於傳統翻牌遊戲，新奇有趣的主題等你來挑戰
         <br />
         <br />
-        每過一關就會提升難度，道具牌可以幫助你延長時間或是增加
+        每過一關會提升難度，道具牌可以延長時間或是增加
         Combo，當計時器歸零即遊戲結束
       </motion.p>
       <section className="mb-8 grid grid-cols-3 gap-8 max-sm:mb-10 max-sm:w-full max-sm:grid-cols-2 max-sm:gap-4">
@@ -139,10 +139,10 @@ export default function Home() {
       <footer className="fixed bottom-4 left-1/2 w-full -translate-x-1/2">
         <div className="mb-1 flex items-center justify-center text-xs text-gray-500">
           <div>此網站支援度電腦平板手機瀏覽器</div>
-          <div className="mx-2 text-xs text-gray-500">beta v1.0.4</div>
+          <div className="mx-2 text-xs text-gray-500">beta v1.0.5</div>
         </div>
         <div className="flex justify-center gap-1 text-xs text-gray-500">
-          <span>#記憶極限, #記憶配對, #記憶訓練, Created by Johnson Huang</span>
+          <span>#記憶極限, #記憶訓練, Created by Johnson Huang</span>
           <Image
             src="/smile-circle.svg"
             alt="smile-circle"
