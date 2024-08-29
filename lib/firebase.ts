@@ -5,6 +5,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
+  Timestamp,
   addDoc,
   collection,
   doc,
@@ -75,6 +76,7 @@ export const createUser = async (
         level: 1,
         score: 0,
       },
+      createdDate: Timestamp.now(),
     };
     // 有 id 代表第三方登入
     if (id) {
@@ -118,7 +120,7 @@ export const addUserInLeaderboard = async (
   try {
     const userRef = doc(db, 'players', id);
     await updateDoc(userRef, {
-      [theme]: { level, score },
+      [theme]: { level, score, updatedDate: Timestamp.now() },
     });
   } catch (e) {
     console.error('Error adding document: ', e);
@@ -127,7 +129,12 @@ export const addUserInLeaderboard = async (
 
 export const getLeaderboard = async (theme: GameTheme) => {
   const querySnapshot = await getDocs(
-    query(collection(db, 'players'), orderBy('color.score', 'desc'), limit(50)),
+    query(
+      collection(db, 'players'),
+      orderBy(`${theme}.score`, 'desc'),
+      orderBy(`${theme}.level`, 'desc'),
+      limit(50),
+    ),
   );
   const leaderboard: Leaderboard[] = [];
   querySnapshot.forEach(doc => {
