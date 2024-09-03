@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: '記憶極限',
   description:
     '這是一款挑戰記憶力與反應力的翻牌配對遊戲，各種有趣又好玩的主題等你來挑戰，在倒數計時結束前，完成所有的配對，不斷爭取高分，登上排行榜的頂端，與其他玩家一較高下！',
-  metadataBase: new URL('https://memorypairs.com'),
+  metadataBase: new URL('https://www.memorypairs.com'),
   openGraph: {
     siteName: '記憶極限',
     type: 'website',

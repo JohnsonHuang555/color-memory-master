@@ -28,7 +28,7 @@ export default function ColorPage() {
   if (!cardContents.length) return;
 
   return (
-    <div className="flex h-full w-[600px] flex-col items-center justify-center p-24 max-md:w-2/3 max-md:p-12 max-sm:w-full max-sm:p-6 2xl:w-[1000px]">
+    <div className="flex h-full w-[600px] flex-col items-center justify-center p-24 max-md:w-2/3 max-md:p-12 max-sm:w-full max-sm:p-6 2xl:w-[800px]">
       <DynamicGameTemplate
         gameTheme={GameTheme.Color}
         contentChildren={content => (

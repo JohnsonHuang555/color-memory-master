@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
 
-Sitemap: https://memorypairs.com/sitemap.xml
+Sitemap: https://www.memorypairs.com/sitemap.xml

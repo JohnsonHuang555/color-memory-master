@@ -51,7 +51,7 @@ const EnterUsernameModal = ({
 
   return (
     <AlertDialog open={isOpen}>
-      <AlertDialogContent className="w-[300px] rounded-md max-sm:w-4/5">
+      <AlertDialogContent className="w-[400px] rounded-md max-sm:w-4/5">
         <AlertDialogHeader>
           <AlertDialogTitle>玩家名稱</AlertDialogTitle>
           <AlertDialogDescription>
